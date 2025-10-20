@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Choose Payment Mode</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: 'Inter', sans-serif; }
+  input, select, button { transition: all 0.3s ease; font-size: 0.875rem; }
+  input:focus, select:focus { outline: none; border-color: #10b981; box-shadow: 0 0 5px rgba(16, 185, 129, 0.5); }
+  #popup { backdrop-filter: blur(4px); }
+</style>
+</head>
+<body class="bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center min-h-screen p-4">
+
+<div class="bg-white rounded-3xl shadow-2xl w-full max-w-md p-6 sm:p-8 text-center">
+    <h1 class="text-2xl font-bold mb-6 text-blue-700">Choose Payment Mode</h1>
+    <div class="flex flex-col space-y-4">
+        <button id="tillBtn" class="bg-blue-600 text-white p-4 rounded-2xl font-semibold hover:bg-blue-700 shadow-lg">Till</button>
+        <button id="paybillBtn" class="bg-green-600 text-white p-4 rounded-2xl font-semibold hover:bg-green-700 shadow-lg">Paybill</button>
+    </div>
+</div>
+
+<!-- Till Payment Pop-up -->
+<div id="tillPopup" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center hidden">
+    <div class="bg-white p-5 rounded-3xl w-full max-w-sm shadow-2xl border border-green-300">
+        <h2 class="text-lg font-bold mb-3 text-blue-700">Till Payment</h2>
+        <div class="mb-4">
+            <label class="block font-semibold mb-1 text-gray-700 text-sm">Select Plan</label>
+            <select id="tillPlan" class="w-full p-3 border rounded-2xl text-gray-700">
+                <option value="10">Kes. 10 - 2 Hrs UNLIMITED</option>
+                <option value="20">Kes. 20 - 6 Hrs UNLIMITED</option>
+                <option value="30">Kes. 30 - 12 Hrs UNLIMITED</option>
+                <option value="40">Kes. 40 - 24 Hrs UNLIMITED</option>
+                <option value="99">Kes. 99 - 3 Days UNLIMITED</option>
+                <option value="100">Kes. 100 - 3 Devices 1 Day</option>
+                <option value="180">Kes. 180 - 7 Days UNLIMITED</option>
+                <option value="750">Kes. 750 - 30 Days 3 Devices</option>
+            </select>
+        </div>
+        <div class="mb-4">
+            <label class="block font-semibold mb-1 text-gray-700 text-sm">Enter Phone Number</label>
+            <input type="tel" id="tillPhone" placeholder="2547XXXXXXXX" class="w-full p-3 border rounded-2xl">
+        </div>
+        <button id="tillPay" class="w-full bg-blue-600 text-white p-3 rounded-2xl font-semibold hover:bg-blue-700 mb-2">Pay</button>
+        <button id="tillCancel" class="w-full bg-red-500 text-white p-3 rounded-2xl font-semibold hover:bg-red-600">Cancel</button>
+    </div>
+</div>
+
+<!-- Paybill Payment Pop-up -->
+<div id="paybillPopup" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center hidden">
+    <div class="bg-white p-5 rounded-3xl w-full max-w-sm shadow-2xl border border-green-300">
+        <h2 class="text-lg font-bold mb-3 text-green-700">Paybill Payment</h2>
+        <div class="mb-4">
+            <label class="block font-semibold mb-1 text-gray-700 text-sm">Select Package</label>
+            <select id="paybillPackage" class="w-full p-3 border rounded-2xl text-gray-700">
+                <option value="10">Kes. 10 - 2 Hrs UNLIMITED</option>
+                <option value="20">Kes. 20 - 6 Hrs UNLIMITED</option>
+                <option value="30">Kes. 30 - 12 Hrs UNLIMITED</option>
+                <option value="40">Kes. 40 - 24 Hrs UNLIMITED</option>
+                <option value="99">Kes. 99 - 3 Days UNLIMITED</option>
+                <option value="100">Kes. 100 - 3 Devices 1 Day</option>
+                <option value="180">Kes. 180 - 7 Days UNLIMITED</option>
+                <option value="750">Kes. 750 - 30 Days 3 Devices</option>
+            </select>
+        </div>
+        <div class="mb-4">
+            <label class="block font-semibold mb-1 text-gray-700 text-sm">Paybill Number</label>
+            <input type="text" value="522522" readonly class="w-full p-3 border rounded-2xl bg-gray-100 text-gray-700">
+        </div>
+        <div class="mb-4">
+            <label class="block font-semibold mb-1 text-gray-700 text-sm">Account Number (Phone)</label>
+            <input type="tel" id="paybillPhone" placeholder="2547XXXXXXXX" class="w-full p-3 border rounded-2xl">
+        </div>
+        <button id="paybillPay" class="w-full bg-green-600 text-white p-3 rounded-2xl font-semibold hover:bg-green-700 mb-2">Pay</button>
+        <button id="paybillCancel" class="w-full bg-red-500 text-white p-3 rounded-2xl font-semibold hover:bg-red-600">Cancel</button>
+    </div>
+</div>
+
+<!-- Success Pop-up -->
+<div id="popup" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center hidden">
+    <div class="bg-green-100 p-5 rounded-3xl w-full max-w-sm text-center shadow-2xl border border-green-300">
+        <h2 class="text-lg font-bold mb-3 text-green-700">Payment Sent!</h2>
+        <p class="mb-3 text-gray-800">Please check your MPesa app to complete the payment.</p>
+        <button id="closePopup" class="w-full bg-green-600 text-white p-3 rounded-2xl font-semibold hover:bg-green-700">OK</button>
+    </div>
+</div>
+
+<script>
+    const tillBtn = document.getElementById('tillBtn');
+    const paybillBtn = document.getElementById('paybillBtn');
+
+    const tillPopup = document.getElementById('tillPopup');
+    const paybillPopup = document.getElementById('paybillPopup');
+
+    const tillCancel = document.getElementById('tillCancel');
+    const paybillCancel = document.getElementById('paybillCancel');
+
+    const tillPay = document.getElementById('tillPay');
+    const paybillPay = document.getElementById('paybillPay');
+
+    const popup = document.getElementById('popup');
+    const closePopup = document.getElementById('closePopup');
+
+    // Open pop-ups
+    tillBtn.addEventListener('click', () => tillPopup.classList.remove('hidden'));
+    paybillBtn.addEventListener('click', () => paybillPopup.classList.remove('hidden'));
+
+    // Cancel buttons
+    tillCancel.addEventListener('click', () => tillPopup.classList.add('hidden'));
+    paybillCancel.addEventListener('click', () => paybillPopup.classList.add('hidden'));
+
+    // Payment buttons
+    tillPay.addEventListener('click', () => {
+        const phone = document.getElementById('tillPhone').value;
+        if (!phone.match(/^2547\d{8}$/)) { alert('Please enter a valid phone number'); return; }
+        tillPopup.classList.add('hidden');
+        popup.classList.remove('hidden');
+    });
+
+    paybillPay.addEventListener('click', () => {
+        const phone = document.getElementById('paybillPhone').value;
+        if (!phone.match(/^2547\d{8}$/)) { alert('Please enter a valid phone number'); return; }
+        paybillPopup.classList.add('hidden');
+        popup.classList.remove('hidden');
+    });
+
+    closePopup.addEventListener('click', () => popup.classList.add('hidden'));
+</script>
+
+</body>
+</html>
