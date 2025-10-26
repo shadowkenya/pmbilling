@@ -1,255 +1,815 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>PM Billing System</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPEEDCONNECT Wi-Fi Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght+400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --dark-blue: #0E2938;
+            --mid-blue: #1A3E50;
+            --orange: #FF8C00;
+            --white: #FFFFFF;
+            --grey: #A9A9A9;
+            --light-grey: #f4f4f4;
+            --green: #34A853;
+        }
 
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", sans-serif; }
-body {
-  background: #1e2a38 url('https://picsum.photos/1080/1000?blur=5') no-repeat center center fixed;
-  background-size: cover;
-  color: #fff;
-  display: flex; flex-direction: column; align-items: center;
-  min-height: 100vh; padding: 15px;
-  position: relative;
-}
-body::before {
-  content: '';
-  position: fixed; top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.75);
-  z-index: -1;
-}
-.plans a.plan-card {
-  text-decoration: none; /* removes underline */
-  color: inherit;         /* keeps text color as it is */
-  display: block;         /* ensures the entire card is clickable */
-}
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--dark-blue);
+            color: var(--white);
+            margin: 0;
+            padding: 0;
+            /* Ensures no unexpected scrolling on mobile */
+            overflow-x: hidden; 
+        }
+
+        header {
+            background: var(--mid-blue);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        header .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        header .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--orange);
+            letter-spacing: 1px;
+            margin-left: 10px;
+        }
+
+        /* Wi-Fi and Phone Icon */
+        .wifi-icon, .phone-icon {
+            width: 24px;
+            height: 24px;
+            fill: var(--white);
+        }
+
+        .wifi-icon {
+            animation: pulse 1.5s infinite alternate;
+            margin-right: -4px;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.5; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        header nav a, header nav button {
+            color: var(--white);
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 5px 8px;
+            font-size: 14px;
+            transition: color 0.3s, border-bottom 0.3s;
+            background: none;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        header nav a:hover, header nav button:hover {
+            color: var(--orange);
+        }
+        
+        header nav button#login-btn {
+            border: 1px solid var(--orange);
+            border-radius: 5px;
+            padding: 5px 12px;
+            font-weight: 500;
+        }
+        
+        header nav button#login-btn:hover {
+            background-color: var(--orange);
+            color: var(--white);
+        }
+
+        /* Hamburger Menu Icon */
+        .menu-toggle {
+            display: none; /* Hide on large screens */
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            z-index: 1000;
+        }
+
+        .menu-toggle .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: var(--white);
+            transition: all 0.3s ease-in-out;
+        }
+        
+        /* Mobile Navigation Styles */
+        #main-nav {
+            display: flex;
+        }
+
+        /* --- MOBILE LAYOUT FIXES AND MENU --- */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block; /* Show on small screens */
+            }
+
+            #main-nav {
+                display: none; /* Hide default navigation */
+                flex-direction: column;
+                position: fixed;
+                top: 60px; /* Below the header */
+                right: 0;
+                width: 70%;
+                max-width: 250px;
+                background: var(--mid-blue);
+                box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+                padding: 10px 0;
+                z-index: 998;
+                border-bottom-left-radius: 8px;
+                animation: slideIn 0.3s forwards;
+            }
+            
+            #main-nav.open {
+                display: flex;
+            }
+            
+            #main-nav a, #main-nav button {
+                margin: 0;
+                padding: 15px 20px;
+                border-bottom: 1px solid var(--dark-blue);
+                text-align: left;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            
+            #main-nav button#login-btn {
+                border: none;
+                border-top: 1px solid var(--dark-blue);
+                background-color: var(--orange);
+                color: var(--white);
+                font-weight: 700;
+            }
+            
+            #main-nav button#login-btn:hover {
+                background-color: #e57c00;
+            }
+
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            
+            /* Toggle animation for the icon */
+            .menu-toggle.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-toggle.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            .menu-toggle.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+
+            /* Container for fixed width on small screens */
+            .container {
+                width: calc(100% - 40px);
+                max-width: 900px;
+                margin: 0 auto;
+                padding: 0 20px 80px;
+            }
+        }
+        /* --- END MOBILE LAYOUT FIXES AND MENU --- */
 
 
-/* Header */
-header {
-  text-align: center; margin: 10px 0 25px; width: 100%; max-width: 650px;
-  padding: 15px; background: gray; border-radius: 12px;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1);
-}
-header h1 { font-size: 2rem; font-weight: 700; color: #fff; margin-bottom: 5px; }
-header p { font-size: 1rem; font-weight: 300; margin-top: 4px; color: #fff; }
-#live-clock { font-size: 0.9rem; color: #f5a623; font-weight: 600; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding-bottom: 80px;
+        }
 
-/* Plans */
-.plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap: 12px; width: 100%; max-width: 650px; padding: 10px; }
-.plan-card {
-  background: rgba(41,59,81,0.9); border-radius: 15px; text-align: center;
-  padding: 18px 10px; transition: transform 0.2s ease, box-shadow 0.3s ease;
-  cursor: pointer; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-}
-.plan-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.6); background: rgba(49,74,103,0.9); }
-.plan-card h2 { font-size: 1.2rem; color: #50e3c2; margin-bottom: 4px; }
-.plan-card p { font-size: 0.85rem; color: #fff; }
+        .info-header {
+            background-color: var(--mid-blue);
+            padding: 20px 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
 
-/* Buttons */
-.voucher-btn {
-  background: linear-gradient(90deg,#f5a623,#d0021b); color: #fff; border: none;
-  padding: 14px 25px; font-size: 1rem; border-radius: 10px; width: 100%; max-width: 650px;
-  margin: 18px 0; cursor: pointer; transition: background 0.3s ease, transform 0.1s;
-}
-.voucher-btn:hover { background: linear-gradient(90deg,#f8b347,#d0021b); transform: translateY(-1px); }
+        .header-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--orange);
+        }
 
-/* Reconnect Sections */
-.reconnect-section {
-  background: rgba(41,59,81,0.9); width: 100%; max-width: 650px; border-radius: 12px;
-  padding: 18px; margin-bottom: 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);
-}
-.reconnect-section h3 { font-size: 1.1rem; color: #fff; margin-bottom: 10px; }
-.reconnect-section input {
-  width: 100%; padding: 12px; border-radius: 6px; border: none; margin-bottom: 12px;
-  font-size: 1rem; outline: none; background-color: #ecf0f1; color: #2c3e50;
-}
-.reconnect-section input::placeholder { color: #7f8c8d; }
-.reconnect-btn {
-  width: 100%; background: linear-gradient(90deg,#50e3c2,#00bfa5);
-  border: none; color: #1e2a38; font-weight: 600; padding: 12px; font-size: 1rem;
-  border-radius: 8px; cursor: pointer; transition: background 0.3s ease, transform 0.1s;
-}
-.reconnect-btn:hover { background: linear-gradient(90deg,#7af2d7,#50e3c2); transform: translateY(-1px); }
+        .info-text {
+            color: var(--grey);
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
 
-/* Info and Media */
-#info-and-media {
-  display: flex; flex-direction: column; width: 100%; max-width: 650px;
-  background: rgba(41,59,81,0.9); border-radius: 12px; margin-top: 15px;
-  padding: 15px; box-shadow: 0 6px 15px rgba(0,0,0,0.5); margin-bottom: 20px;
-}
-#info-and-media h2 { color: #fff; margin-bottom: 15px; }
-.media-text-row { display: flex; flex-direction: row; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
-.media-text-row .image-container { flex: 1; min-width: 100px; background: #394d66; border-radius: 8px; overflow: hidden; position: relative; }
-.media-text-row .image-container img { width: 100%; height: 100%; object-fit: cover; }
-.media-text-row .info-text { flex: 2; padding: 10px 0; }
-.info-text h3, .info-text p { color: #fff; margin-bottom: 5px; }
-.video-container { width: 100%; height: 200px; border-radius: 8px; overflow: hidden; position: relative; text-align: center; color: #50e3c2; padding-top: 0; }
-.video-container video { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
+        .customer-care {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: var(--white);
+        }
 
-/* Contact Details */
-.contact-details { text-align: center; margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); }
-.contact-details h3, .contact-details p { color: #fff; }
-.social-icons a { color: #fff; font-size: 1.5rem; margin: 0 10px; transition: color 0.3s; }
-.social-icons a:hover { color: #4a90e2; }
+        .customer-care svg {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+            fill: var(--white);
+        }
 
-/* Footer */
-footer { text-align: center; font-size: 0.8rem; color: #fff; margin-top: 10px; padding-bottom: 10px; width: 100%; max-width: 650px; }
-.footer-links a { color: #f5a623; text-decoration: none; margin: 0 10px; transition: color 0.3s; }
-.footer-links a:hover { color: #fff; }
+        .section-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin: 15px;
+            color: var(--light-grey);
+        }
 
-/* Modal */
-.modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.8); }
-.modal-content { background-color: #293b51; margin: 15% auto; padding: 20px; border-radius: 10px; color: #fff; width: 80%; max-width: 400px; }
-.modal-content h2 { color: #4a90e2; }
-.close-btn { color: #f5a623; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
-.close-btn:hover { color: #fff; }
+        .package-tabs {
+            display: flex;
+            justify-content: space-between;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 0 15px;
+            margin-bottom: 15px;
+        }
 
-/* Responsive */
-@media (max-width: 600px) {
-  header h1 { font-size: 1.7rem; }
-  .media-text-row { flex-direction: column; }
-  .plans { grid-template-columns: 1fr 1fr; }
-  .plan-card h2 { font-size: 1.1rem; }
-  .plan-card p { font-size: 0.75rem; }
-}
-</style>
+        .tab-button {
+            background: none;
+            border: none;
+            color: var(--grey);
+            padding: 8px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+            flex-grow: 1;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .tab-button.active {
+            color: var(--orange);
+            border-bottom: 2px solid var(--orange);
+        }
+
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            padding: 0 15px 15px;
+        }
+
+        .package-card {
+            background-color: var(--mid-blue);
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.2s, border-color 0.3s;
+        }
+
+        .package-card:hover {
+            border-color: var(--orange);
+            transform: scale(1.05);
+        }
+
+        .package-title { font-size: 13px; font-weight: 500; margin-bottom: 5px; text-transform: uppercase; }
+        .package-price { font-size: 20px; font-weight: 700; color: var(--orange); }
+        .price-currency { font-size: 12px; font-weight: 400; vertical-align: top; margin-right: 2px; }
+        .package-details { font-size: 11px; color: var(--grey); margin-top: 5px; line-height: 1.3; }
+        .package-details span { display: block; font-weight: 500; color: var(--white); }
+
+        .voucher-button {
+            background-color: var(--orange);
+            color: var(--white);
+            border: none;
+            width: calc(100% - 30px);
+            margin: 15px;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .voucher-button:hover {
+            background-color: #e57c00;
+        }
+
+        .reconnect-section {
+            background-color: var(--mid-blue);
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+
+        .reconnect-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: var(--light-grey);
+        }
+
+        .input-group {
+            background-color: var(--dark-blue);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .input-group input {
+            background: none;
+            border: none;
+            color: var(--grey);
+            width: 100%;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .reconnect-btn {
+            background-color: var(--orange);
+            color: var(--white);
+            border: none;
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .reconnect-btn:hover {
+            background-color: #e57c00;
+        }
+
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.8);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: var(--mid-blue);
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 350px;
+            text-align: center;
+            animation: fadeIn 0.4s;
+        }
+        
+        .modal-content-lg {
+            background-color: var(--mid-blue);
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            text-align: left;
+            animation: fadeIn 0.4s;
+        }
+
+
+        @keyframes fadeIn {
+            from {opacity: 0; transform: scale(0.8);}
+            to {opacity: 1; transform: scale(1);}
+        }
+
+        .modal-content h3, .modal-content-lg h3 { color: var(--orange); margin-top: 0; }
+        
+        .modal-content label { display: block; margin-bottom: 5px; font-size: 14px; text-align: left; }
+        
+        .modal-content input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid var(--dark-blue);
+            border-radius: 5px;
+            background-color: var(--dark-blue);
+            color: var(--white);
+        }
+
+        .stk-button {
+            background-color: var(--green);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+            font-weight: 700;
+            transition: background 0.3s;
+        }
+        
+        .login-button {
+            background-color: var(--orange); 
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+            font-weight: 700;
+            transition: background 0.3s;
+        }
+
+        .stk-button:hover { background-color: #2e8b47; }
+        .login-button:hover { background-color: #e57c00; }
+
+        .close-button {
+            color: var(--grey);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close-button:hover {
+            color: var(--white);
+            cursor: pointer;
+        }
+
+        footer {
+            background: var(--mid-blue);
+            text-align: center;
+            padding: 15px 10px;
+            color: var(--grey);
+            font-size: 13px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            border-top: 1px solid #1c2f3b;
+            display: flex;
+            justify-content: center;
+        }
+
+        footer a {
+            color: var(--orange);
+            text-decoration: none;
+            font-weight: 500;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 
 <header>
-  <h1>WEB INTERNET STORE</h1>
-  <p>Hot.spot</p>
-  <p>Access Internet right away</p>
-  <div id="live-clock">Loading Time...</div>
+    <div class="logo-container">
+      
+        <div class="logo">SPEEDCONNECT</div>
+  <svg class="wifi-icon" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
+            <path class="animated-signal" d="M12 6.5C8.36 6.5 5 8.1 3 10.5L12 21l9-10.5C19 8.1 15.64 6.5 12 6.5z" fill="none" stroke="var(--white)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 6.5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6z" opacity="0"/>
+            <path d="M12 11c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="var(--orange)"/>
+        </svg>
+       
+    </div>
+    
+    <nav id="main-nav">
+        <a href="#">Home</a>
+        <a href="#packages-grid">Packages</a>
+        <button id="login-btn">Login</button>
+    </nav>
+    
+    <button class="menu-toggle" id="menu-toggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
 </header>
-<section class="plans">
-  <a href="pay.html" class="plan-card">
-    <h2>Kes. 10</h2><p>2 Hrs</p><p>UNLIMITED</p>
-  </a>
-  <a href="pay.html" class="plan-card">
-    <h2>Kes. 20</h2><p>6 Hrs</p><p>UNLIMITED</p>
-  </a>
-  <a href="pay.html" class="plan-card">
-    <h2>Kes. 30</h2><p>12 Hrs</p><p>UNLIMITED</p>
-  </a>
-  <a href="pay.html" class="plan-card">
-    <h2>Kes. 40</h2><p>24 Hrs</p><p>UNLIMITED</p>
-  </a>
-  <a href="pay.html" class="plan-card">
-    <h2>Kes. 99</h2><p>3 Days</p><p>UNLIMITED</p>
-  </a>
-  <a href="pay.html" class="plan-card">
-    <h2>Kes. 100</h2><p>3 Devices</p><p>1 Day</p>
-  </a>
-  <a href="pay.html" class="plan-card">
-    <h2>Kes. 180</h2><p>7 Days</p><p>UNLIMITED</p>
-  </a>
-  <a href="pay.html" class="plan-card">
-    <h2>Kes. 750</h2><p>30 Days</p><p>3 Devices</p>
-  </a>
-</section>
 
-
-<button class="voucher-btn">🎟️ Redeem Voucher</button>
-
-<div class="reconnect-section">
-  <h3>Reconnect with M-Pesa Till Message</h3>
-  <input type="text" id="mpesaMessage" placeholder="e.g., QTHDKYBNTZ" />
-  <button class="reconnect-btn" onclick="reconnectMpesa()">Reconnect</button>
+<div class="container">
+    <div class="info-header">
+        <div class="header-title">Welcome to SPEEDCONNECT Wi-Fi</div>
+        <div class="info-text">Choose your package below and pay instantly using M-Pesa to connect.</div>
+<div class="customer-care">
+    <svg viewBox="0 0 24 24">
+        <path d="M20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM4 20V4h16v16H4zM11 8v2H8v2h3v2h2v-2h3v-2h-3V8h-2z"/>
+    </svg>
+    Customer Care: +254754053038
 </div>
 
-<div class="reconnect-section">
-  <h3>Reconnect with Paybill Account message</h3>
-  <input type="text" id="accountNumber" placeholder="e.g., TWEQFGSHTK" />
-  <button class="reconnect-btn" onclick="connectAccount()">Connect</button>
+<div class="buy-procedure">
+    <h3>How to Buy & Connect</h3>
+    <ol>
+        <li><strong>Choose a Package:</strong> Select your preferred Wi-Fi package below.</li>
+        <li><strong>Enter Details:</strong> Input your M-Pesa phone number in the form.</li>
+        <li><strong>Make Payment:</strong> Complete the payment using M-Pesa. Wait for confirmation SMS.</li>
+        <li><strong>Connect to Wi-Fi:</strong> Use the credentials provided in the SMS to connect your device.</li>
+        <li><strong>Troubleshooting:</strong> If you face any issues, call our Customer Care at <strong>+254754053038</strong> or chat online.</li>
+        <li><strong>Enjoy Internet:</strong> Start browsing and streaming immediately!</li>
+    </ol>
 </div>
 
-<div id="info-and-media">
-  <h2>Why Choose Our Service?</h2>
-
-  <div class="media-text-row">
-    <div class="image-container">
-      <img src="p.jpeg" alt="High Speed Internet Logo">
     </div>
-    <div class="info-text">
-      <h3>Reliability & Speed</h3>
-      <p>Experience <strong>lights-out fast internet</strong> perfect for streaming, gaming, and heavy downloads. We guarantee 99.9% uptime and consistent speeds across all our plans. Get connected instantly!</p>
-    </div>
-  </div>
 
-  <div class="video-container">
-    <video src="123.mp4" autoplay loop muted playsinline preload="auto"></video>
-  </div>
+    <div class="packages-section">
+        <div class="section-title">Our Packages</div>
 
-  <div class="contact-details">
-    <h3>Contact Us 24/7</h3>
-    <p><i class="fas fa-phone-alt"></i> Call: <strong>+254 712 345 678</strong> | <strong>+254 798 765 432</strong></p>
-    <div class="social-icons">
-      <a href="https://wa.me/254712345675" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-      <a href="https://facebook.com/yourpage" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
-      <a href="mailto:support@yourdomain.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a>
+        <div class="package-tabs">
+            <button class="tab-button active" data-filter="all">All</button>
+            <button class="tab-button" data-filter="hourly">Hourly</button>
+            <button class="tab-button" data-filter="daily">Daily</button>
+            <button class="tab-button" data-filter="weekly">Weekly</button>
+            <button class="tab-button" data-filter="monthly">Monthly</button>
+        </div>
+
+        <div class="packages-grid" id="packages-grid">
+            <script>
+                const grid = document.currentScript.parentElement;
+                const types = ['hourly','daily','weekly','monthly','special'];
+                const typeNames = {hourly:'Hour',daily:'Day',weekly:'Week',monthly:'Month',special:'VIP Access'};
+                let id=1;
+                ['hourly','daily','weekly','monthly','special'].forEach(type=>{
+                    for(let i=1;i<=10;i++){
+                        grid.insertAdjacentHTML('beforeend',`
+                        <div class="package-card" data-type="${type}" data-name="${type.toUpperCase()} PACKAGE ${i}" data-price="40">
+                            <div class="package-title">${type.toUpperCase()} PACKAGE ${i}</div>
+                            <div class="package-price"><span class="price-currency">KES</span>40</div>
+                            <div class="package-details"><span>${i} ${typeNames[type]}</span> Unlimited Speed</div>
+                        </div>`);
+                        id++;
+                    }
+                });
+            </script>
+        </div>
     </div>
+
+    <button class="voucher-button">🎟 Redeem Voucher</button>
+
+    <div class="reconnect-section"><div class="reconnect-title">Reconnect Using M-Pesa Message</div>
+
+<div class="input-group">
+    <input type="text" id="mpesaCode" placeholder="Paste M-Pesa message (e.g., TCK15SKB4Z)">
+</div>
+
+<button class="reconnect-btn" onclick="reconnectUser()">Reconnect</button>
+
+        </div>
+    </div>
+</div>
+
+<div id="paymentModal" class="modal">
+  <div class="modal-content">
+    <span class="close-button close-payment-modal">&times;</span>
+    <h3 id="modal-package-name">Package</h3>
+    <p>Price: <span id="modal-package-price">KES 0</span></p>
+    <label for="mpesa-number">M-Pesa Number:</label>
+    <input type="number" id="mpesa-number" placeholder="e.g. 254712345678" required>
+    <button class="stk-button" id="pay-button">PAY NOW</button>
   </div>
 </div>
+
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button close-login-modal">&times;</span>
+        <h3>Admin Login</h3>
+        <label for="login-username">Username:</label>
+        <input type="text" id="login-username" placeholder="admin" required>
+        <label for="login-password">Password:</label>
+        <input type="password" id="login-password" placeholder="adminadmin" required>
+        <button class="login-button" id="admin-login-btn">LOGIN</button>
+    </div>
+</div>
+
+<div id="aboutModal" class="modal">
+    <div class="modal-content-lg">
+        <span class="close-button close-about-modal">&times;</span>
+        <h3>About SPEEDCONNECT Wi-Fi</h3>
+        <p>SPEEDCONNECT is dedicated to providing high-speed, affordable, and reliable internet access in public spaces. Our network is designed for seamless connectivity, whether you're here for a quick browse or extended work.</p>
+        <p>We pride ourselves on 24/7 customer support and a simple, M-Pesa based payment system for instant access.</p>
+    </div>
+</div>
+
+<div id="termsModal" class="modal">
+    <div class="modal-content-lg">
+        <span class="close-button close-terms-modal">&times;</span>
+        <h3>Terms and Conditions</h3>
+        <p>By connecting to the SPEEDCONNECT Wi-Fi network, you agree to the following:</p>
+        <ul>
+            <li>**Fair Usage Policy:** Users must adhere to reasonable and non-excessive data usage. We reserve the right to throttle or disconnect users engaging in illegal activities or extreme bandwidth consumption.</li>
+            <li>**Service Availability:** We strive for continuous service but do not guarantee uninterrupted access. Service may be temporarily unavailable due to maintenance or technical issues.</li>
+            <li>**Liability:** SPEEDCONNECT is not liable for any data loss, security breaches, or damages resulting from the use of our public Wi-Fi network.</li>
+            <li>**Refunds:** Payments are generally non-refundable unless a service outage lasting more than 4 hours is reported and verified.</li>
+        </ul>
+        <p>Please use the network responsibly.</p>
+    </div>
+</div>
+
+<div id="contactModal" class="modal">
+    <div class="modal-content-lg">
+        <span class="close-button close-contact-modal">&times;</span>
+        <h3>Contact Us</h3>
+        <p>For support, inquiries, or business partnership opportunities, please reach out through the channels below:</p>
+        <p><strong>Customer Care Hotline:</strong> <a href="tel:+254795696049">+254 795 696 049</a></p>
+        <p><strong>Email Support:</strong> <a href="mailto:support@speedconnect.co.ke">support@speedconnect.co.ke</a></p>
+        <p><strong>Physical Address:</strong> Mayende Tech, Innovation Center, Nairobi, Kenya.</p>
+    </div>
+</div>
+
 
 <footer>
-  <div class="footer-links">
-    <a href="#" id="about-us-link">About Us</a>
-    <a href="#">Terms & Conditions</a>
-  </div>
-  <p>© 2025 Powered by Shadowtech Team. All Rights Reserved.</p>
+    © 2025 SPEEDCONNECT Wi-Fi | Powered by <a href="#" target="_blank">Mayende Tech</a>
+    <a href="#" id="footer-about-btn">About</a>
+    <a href="#" id="footer-terms-btn">Terms & Conditions</a>
+    <a href="#" id="footer-contact-btn">Contact</a>
 </footer>
 
-<div id="aboutUsModal" class="modal">
-  <div class="modal-content">
-    <span class="close-btn">&times;</span>
-    <h2>About Shadowtech Team</h2>
-    <p>We are a dedicated team focused on providing high-speed. Our mission is to bridge the digital divide by offering affordable and fast internet access to everyone.</p>
-    <p>Our infrastructure is designed for maximum performance and stability, ensuring you stay connected when it matters most.</p>
-  </div>
-</div>
-
 <script>
-// Live Clock
-function updateClock() {
-  const now = new Date();
-  const options = {
-    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
-    hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
-  };
-  document.getElementById('live-clock').textContent = now.toLocaleDateString('en-US', options);
-}
-updateClock();
-setInterval(updateClock, 1000);
+    const tabs = document.querySelectorAll('.tab-button');
+    const paymentModal = document.getElementById('paymentModal');
+    const loginModal = document.getElementById('loginModal');
+    const aboutModal = document.getElementById('aboutModal');
+    const termsModal = document.getElementById('termsModal');
+    const contactModal = document.getElementById('contactModal');
+    const mainNav = document.getElementById('main-nav');
+    const menuToggle = document.getElementById('menu-toggle');
 
-// M-Pesa Reconnect
-function reconnectMpesa() {
-  const message = document.getElementById("mpesaMessage").value.trim();
-  if (!message) alert("Please enter your M-Pesa transaction code (e.g., QTHDKYBNTZ).");
-  else alert("Processing M-Pesa reconnection for code: " + message);
-}
+    const closeButtons = document.querySelectorAll('.close-button');
+    const payButton = document.getElementById('pay-button');
+    const loginButton = document.getElementById('admin-login-btn');
+    const mpesaNumberInput = document.getElementById('mpesa-number');
+    const modalPackageName = document.getElementById('modal-package-name');
+    const modalPackagePrice = document.getElementById('modal-package-price');
 
-// Paybill Connect
-function connectAccount() {
-  const acc = document.getElementById("accountNumber").value.trim();
-  if (!acc) alert("Please enter your Paybill Account transaction code.");
-  else alert("Connecting to account using code: " + acc);
-}
+    const loginBtn = document.getElementById('login-btn');
+    const loginUsernameInput = document.getElementById('login-username');
+    const loginPasswordInput = document.getElementById('login-password');
 
-// Modal Functionality
-const modal = document.getElementById("aboutUsModal");
-const btn = document.getElementById("about-us-link");
-const span = document.getElementsByClassName("close-btn")[0];
-btn.onclick = e => { e.preventDefault(); modal.style.display = "block"; }
-span.onclick = () => modal.style.display = "none";
-window.onclick = event => { if (event.target == modal) modal.style.display = "none"; }
+    const footerAboutBtn = document.getElementById('footer-about-btn');
+    const footerTermsBtn = document.getElementById('footer-terms-btn');
+    const footerContactBtn = document.getElementById('footer-contact-btn');
+    
+    let selectedPackage = {};
+
+    // --- New Toggle Menu Logic ---
+    menuToggle.addEventListener('click', () => {
+        mainNav.classList.toggle('open');
+        menuToggle.classList.toggle('active');
+    });
+
+    // Close mobile menu when a link is clicked
+    mainNav.querySelectorAll('a, button').forEach(item => {
+        item.addEventListener('click', () => {
+            if (mainNav.classList.contains('open') && window.innerWidth <= 768) {
+                mainNav.classList.remove('open');
+                menuToggle.classList.remove('active');
+            }
+        });
+    });
+
+    // --- End New Toggle Menu Logic ---
+
+    function filterPackages(filter) {
+        document.querySelectorAll('.package-card').forEach(card => {
+            const type = card.getAttribute('data-type');
+            card.style.display = (filter === 'all' || type === filter) ? 'block' : 'none';
+        });
+    }
+    
+    function reconnectUser() {
+        const mpesaCode = document.getElementById('mpesaCode').value.trim();
+        if (mpesaCode) {
+            alert(`Attempting to reconnect with code: ${mpesaCode}. Please wait for confirmation.`);
+        } else {
+            alert("Please paste your M-Pesa message/code to reconnect.");
+        }
+    }
+    window.reconnectUser = reconnectUser;
+
+
+    // Package Tabs Logic
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            filterPackages(tab.dataset.filter);
+        });
+    });
+
+    filterPackages('all');
+
+    // Package Card Click -> Open Payment Modal
+    document.addEventListener('click', e => {
+        if (e.target.closest('.package-card')) {
+            const card = e.target.closest('.package-card');
+            const name = card.dataset.name;
+            const price = card.dataset.price;
+            selectedPackage = { name, price };
+            modalPackageName.textContent = name;
+            modalPackagePrice.textContent = `KES ${price}`;
+            paymentModal.style.display = 'block';
+        }
+    });
+
+    // Close Modals
+    closeButtons.forEach(btn => {
+        btn.onclick = () => {
+            btn.closest('.modal').style.display = 'none';
+        };
+    });
+
+    // Close modal when clicking outside
+    window.onclick = e => { 
+        if (e.target.classList.contains('modal')) {
+            e.target.style.display = 'none';
+        }
+    }
+    
+    // Login Button Click -> Open Login Modal
+    loginBtn.addEventListener('click', () => {
+        loginModal.style.display = 'block';
+    });
+    
+    // Admin Login Logic
+    loginButton.addEventListener('click', () => {
+        const username = loginUsernameInput.value.trim();
+        const password = loginPasswordInput.value.trim();
+        
+        const ADMIN_USER = "admin";
+        const ADMIN_PASS = "adminadmin";
+
+        if (username === ADMIN_USER && password === ADMIN_PASS) {
+            alert("Login successful! Redirecting to Dashboard...");
+            console.log("Redirecting to dashboard.html"); 
+            loginModal.style.display = 'none';
+            loginUsernameInput.value = '';
+            loginPasswordInput.value = '';
+        } else {
+            alert("Invalid credentials. Please try again.");
+        }
+    });
+
+
+    // M-Pesa Pay Now Logic
+    payButton.addEventListener('click', () => {
+        const number = mpesaNumberInput.value.trim();
+        if (!number.startsWith("254") || number.length < 12) {
+            alert("Enter valid M-Pesa number starting with 254 (e.g. 254712345678)");
+            return;
+        }
+
+        alert(`Payment request for KES ${selectedPackage.price} (${selectedPackage.name}) sent to ${number}. Complete on your phone.`);
+        paymentModal.style.display = 'none';
+    });
+    
+    // Footer Modal Logic
+    footerAboutBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        aboutModal.style.display = 'block';
+    });
+
+    footerTermsBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        termsModal.style.display = 'block';
+    });
+
+    footerContactBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        contactModal.style.display = 'block';
+    });
 </script>
 
 </body>
