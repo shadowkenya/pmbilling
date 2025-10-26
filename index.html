@@ -7,185 +7,90 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root {
-    --dark-blue: #0E2938;
-    --mid-blue: #1A3E50;
-    --orange: #FF8C00;
-    --white: #FFFFFF;
-    --grey: #A9A9A9;
-    --light-grey: #f4f4f4;
-    --green: #34A853;
+    --dark-blue:#0E2938; --mid-blue:#1A3E50; --orange:#FF8C00;
+    --white:#FFFFFF; --grey:#A9A9A9; --light-grey:#f4f4f4; --green:#34A853;
 }
-
-/* Reset & Body */
-* { box-sizing: border-box; margin:0; padding:0; }
-body {
-    font-family: 'Roboto', sans-serif;
-    background-color: var(--dark-blue);
-    color: var(--white);
-    overflow-x: hidden;
-}
-
-/* Header */
-header {
-    background: var(--mid-blue);
-    padding: 12px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 999;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-}
-header .logo-container { display: flex; align-items: center; }
-header .logo { font-size: 22px; font-weight: 700; color: var(--orange); margin-left:10px; }
-.wifi-icon { width: 28px; height: 28px; fill: var(--white); margin-left:5px; animation: pulse 1.5s infinite alternate; }
-@keyframes pulse { 0% {opacity:0.5; transform:scale(0.9);} 100%{opacity:1; transform:scale(1);} }
-
-header nav a, header nav button {
-    color: var(--white);
-    text-decoration: none;
-    margin: 0 8px;
-    font-size: 14px;
-    background:none;
-    border:none;
-    cursor:pointer;
-    transition:0.3s;
-    white-space: nowrap;
-}
-header nav a:hover, header nav button:hover { color: var(--orange); }
-#login-btn { border:1px solid var(--orange); border-radius:5px; padding:5px 12px; font-weight:500; }
-#login-btn:hover { background-color: var(--orange); color:var(--white); }
-
-/* Hamburger */
-.menu-toggle { display:none; background:none; border:none; cursor:pointer; padding:5px; z-index:1000; }
-.menu-toggle .bar { display:block; width:25px; height:3px; margin:5px auto; background-color:var(--white); transition:0.3s; }
-
-/* Navigation */
-#main-nav { display:flex; flex-wrap:wrap; }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Roboto',sans-serif;background:var(--dark-blue);color:var(--white);overflow-x:hidden;}
+header{background:var(--mid-blue);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:999;}
+header .logo{font-size:22px;font-weight:700;color:var(--orange);}
+.menu-toggle{display:none;background:none;border:none;cursor:pointer;padding:5px;}
+.menu-toggle .bar{display:block;width:25px;height:3px;margin:5px auto;background:var(--white);}
+#main-nav{display:flex;flex-wrap:wrap;}
+#main-nav a, #main-nav button{color:var(--white);text-decoration:none;margin:0 8px;font-size:14px;background:none;border:none;cursor:pointer;transition:0.3s;}
+#login-btn{border:1px solid var(--orange);border-radius:5px;padding:5px 12px;font-weight:500;}
+#login-btn:hover{background:var(--orange);color:white;}
 @media(max-width:768px){
-    .menu-toggle{ display:block; }
-    #main-nav { display:none; flex-direction:column; position:fixed; top:60px; right:0; width:70%; max-width:250px; background:var(--mid-blue); padding:10px 0; border-bottom-left-radius:8px; box-shadow:-2px 0 5px rgba(0,0,0,0.5); }
-    #main-nav.open { display:flex; animation: slideIn 0.3s forwards; }
-    #main-nav a, #main-nav button { padding:15px 20px; width:100%; text-align:left; border-bottom:1px solid var(--dark-blue); margin:0; }
-    #main-nav button#login-btn { border:none; background-color:var(--orange); font-weight:700; }
-    #main-nav button#login-btn:hover { background-color:#e57c00; }
-    @keyframes slideIn { from {transform:translateX(100%);opacity:0;} to {transform:translateX(0);opacity:1;} }
-    .menu-toggle.active .bar:nth-child(2){ opacity:0; }
-    .menu-toggle.active .bar:nth-child(1){ transform:translateY(8px) rotate(45deg); }
-    .menu-toggle.active .bar:nth-child(3){ transform:translateY(-8px) rotate(-45deg); }
+    .menu-toggle{display:block;}
+    #main-nav{display:none;flex-direction:column;position:fixed;top:60px;right:0;width:70%;max-width:250px;background:var(--mid-blue);padding:10px 0;border-bottom-left-radius:8px;}
+    #main-nav.open{display:flex;}
+    #main-nav a,#main-nav button{padding:15px 20px;width:100%;text-align:left;border-bottom:1px solid var(--dark-blue);margin:0;}
 }
-
-/* Container */
-.container { width:95%; max-width:900px; margin:0 auto; padding-bottom:100px; }
-
-/* Info Header */
-.info-header { background: var(--mid-blue); padding:20px; margin-top:20px; border-radius:10px; }
-.header-title { font-size:20px; font-weight:700; margin-bottom:10px; color:var(--orange); }
-.info-text { font-size:14px; color:var(--grey); margin-bottom:15px; }
-.customer-care { display:flex; align-items:center; font-size:14px; color:var(--white); }
-.customer-care svg { width:18px; height:18px; margin-right:8px; fill:var(--white); }
-
-/* Buy Procedure */
-.buy-procedure { margin-top:15px; font-size:14px; }
-.buy-procedure ol li { margin-bottom:8px; }
-
-/* Packages */
-.section-title { font-size:16px; font-weight:500; margin:15px 0; color:var(--light-grey); }
-.package-tabs { display:flex; overflow-x:auto; white-space:nowrap; padding:0 5px; margin-bottom:10px; }
-.tab-button { background:none; border:none; color:var(--grey); padding:8px 15px; font-size:14px; font-weight:500; cursor:pointer; border-bottom:2px solid transparent; text-transform:uppercase; flex-shrink:0; transition:0.3s; }
-.tab-button.active { color:var(--orange); border-bottom:2px solid var(--orange); }
-
-.packages-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; padding:0 5px 15px; }
-.package-card { background:var(--mid-blue); border-radius:10px; padding:10px; text-align:center; cursor:pointer; border:2px solid transparent; transition:0.2s; }
-.package-card:hover { border-color:var(--orange); transform:scale(1.05); }
-.package-title{ font-size:13px; font-weight:500; margin-bottom:5px; text-transform:uppercase; }
-.package-price{ font-size:20px; font-weight:700; color:var(--orange); }
-.price-currency{ font-size:12px; vertical-align:top; margin-right:2px; }
-.package-details{ font-size:11px; color:var(--grey); margin-top:5px; line-height:1.3; }
-.package-details span{ display:block; font-weight:500; color:var(--white); }
-
-/* Buttons */
-.voucher-button, .reconnect-btn { width:calc(100% - 30px); margin:15px; padding:15px; font-size:16px; font-weight:700; border-radius:8px; cursor:pointer; transition:0.3s; border:none; display:flex; justify-content:center; align-items:center; }
-.voucher-button { background-color:var(--orange); }
-.voucher-button:hover { background-color:#e57c00; }
-.reconnect-section{background:var(--mid-blue); padding:15px; border-radius:10px; margin-top:15px;}
-.reconnect-title{font-size:16px;font-weight:500;color:var(--light-grey); margin-bottom:10px;}
-.input-group{background:var(--dark-blue); border-radius:8px; padding:10px; margin-bottom:10px;}
-.input-group input{width:100%; background:none; border:none; color:var(--grey); font-size:14px; outline:none;}
-.reconnect-btn{background-color:var(--orange); color:white;}
-.reconnect-btn:hover{background-color:#e57c00;}
-
-/* Modal */
-.modal { display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:flex; justify-content:center; align-items:center; padding:10px; overflow-y:auto; }
-.modal-content, .modal-content-lg { background:var(--mid-blue); border-radius:10px; width:100%; max-width:600px; padding:20px; text-align:center; animation:fadeIn 0.3s; }
-.modal-content-lg{text-align:left;}
-@keyframes fadeIn{ from{opacity:0; transform:scale(0.8);} to{opacity:1; transform:scale(1);} }
-.modal-content h3, .modal-content-lg h3{ color:var(--orange); margin-top:0;}
-.modal-content input { width:100%; padding:10px; margin:10px 0; border-radius:5px; border:1px solid var(--dark-blue); background:var(--dark-blue); color:white; }
-.stk-button, .login-button{ width:100%; padding:10px; border:none; border-radius:5px; font-size:16px; font-weight:700; cursor:pointer; margin-top:10px; transition:0.3s;}
-.stk-button{background-color:var(--green); color:white;}
-.stk-button:hover{background:#2e8b47;}
-.login-button{background-color:var(--orange); color:white;}
+.container{width:95%;max-width:900px;margin:0 auto;padding-bottom:100px;}
+.info-header{background:var(--mid-blue);padding:20px;margin-top:20px;border-radius:10px;}
+.header-title{font-size:20px;font-weight:700;margin-bottom:10px;color:var(--orange);}
+.info-text{font-size:14px;color:var(--grey);margin-bottom:15px;}
+.buy-procedure{margin-top:15px;font-size:14px;}
+.buy-procedure ol li{margin-bottom:8px;}
+.section-title{font-size:16px;font-weight:500;margin:15px 0;color:var(--light-grey);}
+.package-tabs{display:flex;overflow-x:auto;white-space:nowrap;padding:0 5px;margin-bottom:10px;}
+.tab-button{background:none;border:none;color:var(--grey);padding:8px 15px;font-size:14px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;flex-shrink:0;transition:0.3s;}
+.tab-button.active{color:var(--orange);border-bottom:2px solid var(--orange);}
+.packages-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;padding:0 5px 15px;}
+.package-card{background:var(--mid-blue);border-radius:10px;padding:10px;text-align:center;cursor:pointer;border:2px solid transparent;transition:0.2s;}
+.package-card:hover{border-color:var(--orange);transform:scale(1.05);}
+.package-title{font-size:13px;font-weight:500;margin-bottom:5px;text-transform:uppercase;}
+.package-price{font-size:20px;font-weight:700;color:var(--orange);}
+.price-currency{font-size:12px;vertical-align:top;margin-right:2px;}
+.package-details{font-size:11px;color:var(--grey);margin-top:5px;line-height:1.3;}
+.package-details span{display:block;font-weight:500;color:var(--white);}
+.voucher-button{width:calc(100% - 30px);margin:15px;padding:15px;font-size:16px;font-weight:700;border-radius:8px;cursor:pointer;border:none;background-color:var(--orange);}
+.voucher-button:hover{background:#e57c00;}
+.modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;justify-content:center;align-items:center;padding:10px;overflow-y:auto;}
+.modal-content{background:var(--mid-blue);border-radius:10px;width:100%;max-width:400px;padding:20px;text-align:center;animation:fadeIn 0.3s;}
+@keyframes fadeIn{from{opacity:0;transform:scale(0.8);}to{opacity:1;transform:scale(1);}}
+.modal-content input{width:100%;padding:10px;margin:10px 0;border-radius:5px;border:1px solid var(--dark-blue);background:var(--dark-blue);color:white;}
+.stk-button,.login-button{width:100%;padding:10px;border:none;border-radius:5px;font-size:16px;font-weight:700;cursor:pointer;margin-top:10px;transition:0.3s;}
+.login-button{background-color:var(--orange);color:white;}
 .login-button:hover{background:#e57c00;}
-.close-button{color:var(--grey); float:right; font-size:28px; cursor:pointer;}
+.close-button{color:var(--grey);float:right;font-size:28px;cursor:pointer;}
 .close-button:hover{color:white;}
-
-/* Footer */
-footer{ background:var(--mid-blue); text-align:center; padding:15px 10px; color:var(--grey); font-size:13px; width:100%; display:flex; flex-wrap:wrap; justify-content:center; gap:10px; }
-footer a{color:var(--orange); text-decoration:none; font-weight:500;}
-
-/* Scrollbar Fix for small devices */
-html, body{overflow-x:hidden;}
+footer{background:var(--mid-blue);text-align:center;padding:15px 10px;color:var(--grey);font-size:13px;width:100%;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}
+footer a{color:var(--orange);text-decoration:none;font-weight:500;}
 </style>
 </head>
 <body>
 
 <header>
-<div class="logo-container">
-    <div class="logo">SPEEDCONNECT</div>
-    <svg class="wifi-icon" viewBox="0 0 24 24">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/>
-        <path d="M12 11c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="var(--orange)"/>
-    </svg>
-</div>
-
+<div class="logo">SPEEDCONNECT</div>
 <nav id="main-nav">
-    <a href="#">Home</a>
-    <a href="#packages-grid">Packages</a>
-    <button id="login-btn">Login</button>
+<a href="#">Home</a>
+<a href="#packages-grid">Packages</a>
+<button id="login-btn">Admin Login</button>
 </nav>
-
 <button class="menu-toggle" id="menu-toggle">
-    <span class="bar"></span>
-    <span class="bar"></span>
-    <span class="bar"></span>
+<span class="bar"></span>
+<span class="bar"></span>
+<span class="bar"></span>
 </button>
 </header>
 
 <div class="container">
 <div class="info-header">
-    <div class="header-title">Welcome to SPEEDCONNECT Wi-Fi</div>
-    <div class="info-text">Choose your package below and pay instantly using M-Pesa to connect.</div>
-    <div class="customer-care">
-        <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM4 20V4h16v16H4zM11 8v2H8v2h3v2h2v-2h3v-2h-3V8h-2z"/></svg>
-        Customer Care: +254754053038
-    </div>
+<div class="header-title">Welcome to SPEEDCONNECT Wi-Fi</div>
+<div class="info-text">Choose your package below and pay instantly using M-Pesa to connect.</div>
+</div>
 
 <div class="buy-procedure">
 <h3>How to Buy & Connect</h3>
 <ol>
-<li><strong>Choose a Package:</strong> Select your preferred Wi-Fi package below.</li>
-<li><strong>Enter Details:</strong> Input your M-Pesa phone number in the form.</li>
-<li><strong>Make Payment:</strong> Complete the payment using M-Pesa. Wait for confirmation SMS.</li>
-<li><strong>Connect to Wi-Fi:</strong> Use the credentials provided in the SMS to connect your device.</li>
-<li><strong>Troubleshooting:</strong> If you face any issues, call our Customer Care at <strong>+254754053038</strong> or chat online.</li>
-<li><strong>Enjoy Internet:</strong> Start browsing and streaming immediately!</li>
+<li>Choose a Package</li>
+<li>Enter M-Pesa Details</li>
+<li>Pay & Receive Confirmation</li>
+<li>Connect to Wi-Fi</li>
 </ol>
 </div>
-</div>
 
-<div class="packages-section">
 <div class="section-title">Our Packages</div>
 <div class="package-tabs">
 <button class="tab-button active" data-filter="all">All</button>
@@ -195,167 +100,62 @@ html, body{overflow-x:hidden;}
 <button class="tab-button" data-filter="monthly">Monthly</button>
 </div>
 
-<div class="packages-grid" id="packages-grid">
-<script>
-const grid=document.currentScript.parentElement;
-const types=['hourly','daily','weekly','monthly','special'];
-const typeNames={hourly:'Hour',daily:'Day',weekly:'Week',monthly:'Month',special:'VIP Access'};
-let id=1;
-types.forEach(type=>{
-for(let i=1;i<=10;i++){
-grid.insertAdjacentHTML('beforeend',`
-<div class="package-card" data-type="${type}" data-name="${type.toUpperCase()} PACKAGE ${i}" data-price="40">
-<div class="package-title">${type.toUpperCase()} PACKAGE ${i}</div>
-<div class="package-price"><span class="price-currency">KES</span>40</div>
-<div class="package-details"><span>${i} ${typeNames[type]}</span> Unlimited Speed</div>
-</div>`);
-id++;
-}
-});
-</script>
-</div>
-</div>
-
+<div class="packages-grid" id="packages-grid"></div>
 <button class="voucher-button">🎟 Redeem Voucher</button>
-
-<div class="reconnect-section">
-<div class="reconnect-title">Reconnect Using M-Pesa Message</div>
-<div class="input-group"><input type="text" id="mpesaCode" placeholder="Paste M-Pesa message (e.g., TCK15SKB4Z)"></div>
-<button class="reconnect-btn" onclick="reconnectUser()">Reconnect</button>
-</div>
 </div>
 
-<!-- Modals -->
-<div id="paymentModal" class="modal">
-<div class="modal-content">
-<span class="close-button close-payment-modal">&times;</span>
-<h3 id="modal-package-name">Package</h3>
-<p>Price: <span id="modal-package-price">KES 0</span></p>
-<label for="mpesa-number">M-Pesa Number:</label>
-<input type="number" id="mpesa-number" placeholder="e.g. 254712345678" required>
-<button class="stk-button" id="pay-button">PAY NOW</button>
-</div>
-</div>
-
+<!-- Admin Login Modal -->
 <div id="loginModal" class="modal">
 <div class="modal-content">
-<span class="close-button close-login-modal">&times;</span>
+<span class="close-button">&times;</span>
 <h3>Admin Login</h3>
-<label for="login-username">Username:</label>
-<input type="text" id="login-username" placeholder="admin" required>
-<label for="login-password">Password:</label>
-<input type="password" id="login-password" placeholder="adminadmin" required>
-<button class="login-button" id="admin-login-btn">LOGIN</button>
-</div>
-</div>
-
-<div id="aboutModal" class="modal">
-<div class="modal-content-lg">
-<span class="close-button close-about-modal">&times;</span>
-<h3>About SPEEDCONNECT Wi-Fi</h3>
-<p>SPEEDCONNECT is dedicated to providing high-speed, affordable, and reliable internet access in public spaces...</p>
+<input type="text" id="login-username" placeholder="Username" />
+<input type="password" id="login-password" placeholder="Password" />
+<button class="login-button">Login</button>
 </div>
 </div>
 
 <footer>
-© 2025 SPEEDCONNECT Wi-Fi | Powered by <a href="#" target="_blank">Mayende Tech</a>
-<a href="#" id="footer-about-btn">About</a>
-<a href="#" id="footer-terms-btn">Terms & Conditions</a>
-<a href="#" id="footer-contact-btn">Contact</a>
+© 2025 SPEEDCONNECT Wi-Fi | Powered by <a href="#">Mayende Tech</a>
 </footer>
 
 <script>
-const tabs=document.querySelectorAll('.tab-button');
-const paymentModal=document.getElementById('paymentModal');
-const loginModal=document.getElementById('loginModal');
-const mainNav=document.getElementById('main-nav');
-const menuToggle=document.getElementById('menu-toggle');
-const closeButtons=document.querySelectorAll('.close-button');
-const payButton=document.getElementById('pay-button');
-const loginButton=document.getElementById('admin-login-btn');
-const mpesaNumberInput=document.getElementById('mpesa-number');
-const modalPackageName=document.getElementById('modal-package-name');
-const modalPackagePrice=document.getElementById('modal-package-price');
-const loginBtn=document.getElementById('login-btn');
-const loginUsernameInput=document.getElementById('login-username');
-const loginPasswordInput=document.getElementById('login-password');
-let selectedPackage={};
-
 // Menu toggle
-menuToggle.addEventListener('click',()=>{
-    mainNav.classList.toggle('open');
-    menuToggle.classList.toggle('active');
-});
-mainNav.querySelectorAll('a, button').forEach(item=>{
-    item.addEventListener('click',()=>{
-        if(mainNav.classList.contains('open') && window.innerWidth<=768){
-            mainNav.classList.remove('open');
-            menuToggle.classList.remove('active');
-        }
-    });
-});
+const menuToggle=document.getElementById('menu-toggle');
+const mainNav=document.getElementById('main-nav');
+menuToggle.addEventListener('click',()=>{ mainNav.classList.toggle('open'); });
 
-// Package Tabs
-tabs.forEach(tab=>{ tab.addEventListener('click',()=>{
-    tabs.forEach(t=>t.classList.remove('active'));
-    tab.classList.add('active');
-    document.querySelectorAll('.package-card').forEach(card=>{
-        const type=card.getAttribute('data-type');
-        card.style.display=(tab.dataset.filter==='all'||type===tab.dataset.filter)?'block':'none';
-    });
-})});
-document.querySelectorAll('.package-card').forEach(c=>c.style.display='block');
-
-// Package Card -> Payment Modal
-document.addEventListener('click', e=>{
-    if(e.target.closest('.package-card')){
-        const card=e.target.closest('.package-card');
-        selectedPackage={ name:card.dataset.name, price:card.dataset.price };
-        modalPackageName.textContent=selectedPackage.name;
-        modalPackagePrice.textContent=`KES ${selectedPackage.price}`;
-        paymentModal.style.display='flex';
-    }
-});
-
-// Close Modals
-closeButtons.forEach(btn=>{ btn.onclick=()=>{ btn.closest('.modal').style.display='none'; }; });
-window.onclick=e=>{ if(e.target.classList.contains('modal')) e.target.style.display='none'; };
-
-// Admin Login
-loginBtn.addEventListener('click',()=>{ loginModal.style.display='flex'; });
-loginButton.addEventListener('click',()=>{
-    const username=loginUsernameInput.value.trim();
-    const password=loginPasswordInput.value.trim();
-    if(username==='admin' && password==='adminadmin'){
-        alert('Login successful! Redirecting...');
-        loginModal.style.display='none';
-        loginUsernameInput.value=''; loginPasswordInput.value='';
-    }else{ alert('Invalid credentials.'); }
-});
-
-// M-Pesa Pay
-payButton.addEventListener('click',()=>{
-    const number=mpesaNumberInput.value.trim();
-    if(!number.startsWith("254") || number.length<12){
-        alert("Enter valid M-Pesa number starting with 254.");
-        return;
-    }
-    alert(`Payment KES ${selectedPackage.price} sent to ${number}.`);
-    paymentModal.style.display='none';
-});
-
-// Reconnect
-function reconnectUser(){
-    const code=document.getElementById('mpesaCode').value.trim();
-    if(code){ alert(`Attempting reconnect with code: ${code}`); }
-    else{ alert("Please paste your M-Pesa message/code."); }
+// Package generation
+const grid=document.getElementById('packages-grid');
+const types=['hourly','daily','weekly','monthly'];
+const typeNames={hourly:'Hour',daily:'Day',weekly:'Week',monthly:'Month'};
+types.forEach(type=>{
+for(let i=1;i<=5;i++){
+grid.innerHTML+=`
+<div class="package-card" data-type="${type}">
+<div class="package-title">${type.toUpperCase()} PACKAGE ${i}</div>
+<div class="package-price"><span class="price-currency">KES</span>40</div>
+<div class="package-details"><span>${i} ${typeNames[type]}</span> Unlimited Speed</div>
+</div>`;
 }
-window.reconnectUser=reconnectUser;
+});
 
-// Footer Modal Links
-document.getElementById('footer-about-btn').addEventListener('click',e=>{ e.preventDefault(); document.getElementById('aboutModal').style.display='flex'; });
-document.getElementById('footer-terms-btn').addEventListener('click',e=>{ e.preventDefault(); document.getElementById('termsModal')?.style.display='flex'; });
-document.getElementById('footer-contact-btn').addEventListener('click',e=>{ e.preventDefault(); document.getElementById('contactModal')?.style.display='flex'; });
+// Tabs filtering
+document.querySelectorAll('.tab-button').forEach(tab=>{
+tab.addEventListener('click',()=>{
+document.querySelectorAll('.tab-button').forEach(t=>t.classList.remove('active'));
+tab.classList.add('active');
+document.querySelectorAll('.package-card').forEach(card=>{
+card.style.display=(tab.dataset.filter==='all'||card.dataset.type===tab.dataset.filter)?'block':'none';
+});
+});
+});
+
+// Admin Login modal
+const loginModal=document.getElementById('loginModal');
+document.getElementById('login-btn').addEventListener('click',()=>{ loginModal.style.display='flex'; });
+loginModal.querySelector('.close-button').addEventListener('click',()=>{ loginModal.style.display='none'; });
+window.addEventListener('click',e=>{ if(e.target===loginModal) loginModal.style.display='none'; });
 </script>
 </body>
 </html>
