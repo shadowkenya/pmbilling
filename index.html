@@ -1,161 +1,1092 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SPEEDCONNECT Wi-Fi Portal</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-:root {
-    --dark-blue:#0E2938; --mid-blue:#1A3E50; --orange:#FF8C00;
-    --white:#FFFFFF; --grey:#A9A9A9; --light-grey:#f4f4f4; --green:#34A853;
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Roboto',sans-serif;background:var(--dark-blue);color:var(--white);overflow-x:hidden;}
-header{background:var(--mid-blue);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:999;}
-header .logo{font-size:22px;font-weight:700;color:var(--orange);}
-.menu-toggle{display:none;background:none;border:none;cursor:pointer;padding:5px;}
-.menu-toggle .bar{display:block;width:25px;height:3px;margin:5px auto;background:var(--white);}
-#main-nav{display:flex;flex-wrap:wrap;}
-#main-nav a, #main-nav button{color:var(--white);text-decoration:none;margin:0 8px;font-size:14px;background:none;border:none;cursor:pointer;transition:0.3s;}
-#login-btn{border:1px solid var(--orange);border-radius:5px;padding:5px 12px;font-weight:500;}
-#login-btn:hover{background:var(--orange);color:white;}
-@media(max-width:768px){
-    .menu-toggle{display:block;}
-    #main-nav{display:none;flex-direction:column;position:fixed;top:60px;right:0;width:70%;max-width:250px;background:var(--mid-blue);padding:10px 0;border-bottom-left-radius:8px;}
-    #main-nav.open{display:flex;}
-    #main-nav a,#main-nav button{padding:15px 20px;width:100%;text-align:left;border-bottom:1px solid var(--dark-blue);margin:0;}
-}
-.container{width:95%;max-width:900px;margin:0 auto;padding-bottom:100px;}
-.info-header{background:var(--mid-blue);padding:20px;margin-top:20px;border-radius:10px;}
-.header-title{font-size:20px;font-weight:700;margin-bottom:10px;color:var(--orange);}
-.info-text{font-size:14px;color:var(--grey);margin-bottom:15px;}
-.buy-procedure{margin-top:15px;font-size:14px;}
-.buy-procedure ol li{margin-bottom:8px;}
-.section-title{font-size:16px;font-weight:500;margin:15px 0;color:var(--light-grey);}
-.package-tabs{display:flex;overflow-x:auto;white-space:nowrap;padding:0 5px;margin-bottom:10px;}
-.tab-button{background:none;border:none;color:var(--grey);padding:8px 15px;font-size:14px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;flex-shrink:0;transition:0.3s;}
-.tab-button.active{color:var(--orange);border-bottom:2px solid var(--orange);}
-.packages-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;padding:0 5px 15px;}
-.package-card{background:var(--mid-blue);border-radius:10px;padding:10px;text-align:center;cursor:pointer;border:2px solid transparent;transition:0.2s;}
-.package-card:hover{border-color:var(--orange);transform:scale(1.05);}
-.package-title{font-size:13px;font-weight:500;margin-bottom:5px;text-transform:uppercase;}
-.package-price{font-size:20px;font-weight:700;color:var(--orange);}
-.price-currency{font-size:12px;vertical-align:top;margin-right:2px;}
-.package-details{font-size:11px;color:var(--grey);margin-top:5px;line-height:1.3;}
-.package-details span{display:block;font-weight:500;color:var(--white);}
-.voucher-button{width:calc(100% - 30px);margin:15px;padding:15px;font-size:16px;font-weight:700;border-radius:8px;cursor:pointer;border:none;background-color:var(--orange);}
-.voucher-button:hover{background:#e57c00;}
-.modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;justify-content:center;align-items:center;padding:10px;overflow-y:auto;}
-.modal-content{background:var(--mid-blue);border-radius:10px;width:100%;max-width:400px;padding:20px;text-align:center;animation:fadeIn 0.3s;}
-@keyframes fadeIn{from{opacity:0;transform:scale(0.8);}to{opacity:1;transform:scale(1);}}
-.modal-content input{width:100%;padding:10px;margin:10px 0;border-radius:5px;border:1px solid var(--dark-blue);background:var(--dark-blue);color:white;}
-.stk-button,.login-button{width:100%;padding:10px;border:none;border-radius:5px;font-size:16px;font-weight:700;cursor:pointer;margin-top:10px;transition:0.3s;}
-.login-button{background-color:var(--orange);color:white;}
-.login-button:hover{background:#e57c00;}
-.close-button{color:var(--grey);float:right;font-size:28px;cursor:pointer;}
-.close-button:hover{color:white;}
-footer{background:var(--mid-blue);text-align:center;padding:15px 10px;color:var(--grey);font-size:13px;width:100%;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}
-footer a{color:var(--orange);text-decoration:none;font-weight:500;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPEEDCONNECT HOTSPOT Portal</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        /* Custom styles for deep blue/teal theme */
+        :root {
+            --color-primary-dark: #104E8B; /* Deep Blue/Teal for main background */
+            --color-secondary-dark: #0f406b; 
+            --color-accent: #ff8c00; /* Bright Orange for buttons */
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Styling for card packages */
+        .package-card {
+            background-color: white;
+            color: #1f2937;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            border-bottom: 4px solid var(--color-accent);
+        }
+        .package-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* User Portal Content Container */
+        .portal-container {
+            background-color: var(--color-primary-dark);
+            color: white;
+            padding: 1rem 0;
+            flex-grow: 1;
+        }
+        .main-content {
+            max-width: 1024px; /* Wider content area */
+            margin-left: auto;
+            margin-right: auto;
+            padding: 1rem;
+        }
+        
+        /* Modal Overlay Styling */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #9ca3af;
+        }
+        
+        /* Orange Button Accent */
+        .btn-accent {
+            background-color: var(--color-accent);
+            color: white;
+            transition: background-color 0.2s;
+        }
+        .btn-accent:hover {
+            background-color: #e87b00;
+        }
+        
+        /* Admin Sidebar Styles */
+        .sidebar-link {
+            padding: 0.75rem;
+            display: flex;
+            align-items: center;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .sidebar-link:hover {
+            background-color: #1f2937;
+        }
+        .sidebar-dropdown {
+            margin-left: 1rem;
+            padding-left: 0.5rem;
+            border-left: 2px solid #374151;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+        }
+        .sidebar-dropdown.open {
+            max-height: 300px;
+        }
+        .active-link {
+            background-color: var(--color-accent) !important;
+            color: white !important;
+        }
+        .active-link:hover {
+            background-color: #e87b00 !important;
+        }
+    </style>
 </head>
 <body>
 
-<header>
-<div class="logo">SPEEDCONNECT</div>
-<nav id="main-nav">
-<a href="#">Home</a>
-<a href="#packages-grid">Packages</a>
-<button id="login-btn">Admin Login</button>
-</nav>
-<button class="menu-toggle" id="menu-toggle">
-<span class="bar"></span>
-<span class="bar"></span>
-<span class="bar"></span>
-</button>
-</header>
+    <!-- GLOBAL HEADER SECTION -->
+    <header class="bg-white text-gray-800 shadow-md p-4 sticky top-0 z-50">
+        <div class="main-content flex justify-between items-center py-2">
+            <div class="text-2xl font-bold text-gray-800 flex items-center">
+                <i data-lucide="wifi" class="w-6 h-6 mr-2 text-blue-600"></i>
+                <span class="text-blue-600">SPEED</span>
+                <span class="text-gray-500">CONNECT</span>
+            </div>
+            <nav class="flex space-x-6 text-sm font-medium items-center">
+                <!-- Keep only the Admin Button in the header -->
+                <button id="admin-button" onclick="openModal('admin-login-modal')" class="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold hover:bg-blue-700 transition">
+                    Admin
+                </button>
+            </nav>
+        </div>
+    </header>
 
-<div class="container">
-<div class="info-header">
-<div class="header-title">Welcome to SPEEDCONNECT Wi-Fi</div>
-<div class="info-text">Choose your package below and pay instantly using M-Pesa to connect.</div>
-</div>
+    <!-- MAIN APP CONTAINER: Switches between User Portal and Admin Dashboard -->
+    <div id="app-container" class="flex flex-col flex-grow">
+        
+        <!-- USER PORTAL VIEW (Default View) -->
+        <div id="user-portal" class="portal-container">
+            <div class="main-content">
+                
+                <!-- TOP CAPTIVE PORTAL BAR MOCK -->
+                <div class="p-4 pt-0 text-white text-lg font-semibold border-b border-gray-600/50 mb-6">
+                    Sign in to SPEEDCONNECT INTERNET <span class="block text-sm font-normal opacity-75">hot.spot</span>
+                </div>
 
-<div class="buy-procedure">
-<h3>How to Buy & Connect</h3>
-<ol>
-<li>Choose a Package</li>
-<li>Enter M-Pesa Details</li>
-<li>Pay & Receive Confirmation</li>
-<li>Connect to Wi-Fi</li>
-</ol>
-</div>
+                <!-- SPEEDCONNECT HOTSPOT BRANDING & CUSTOMER CARE -->
+                <div class="p-6 text-center bg-white/10 rounded-xl mb-8">
+                    <h1 class="text-4xl font-extrabold tracking-wide text-white mb-2">SPEEDCONNECT HOTSPOT</h1>
+                    <p class="text-gray-200 text-md mb-6">Select package • Enter M-Pesa number • Complete payment</p>
+                    
+                    <div class="bg-white/10 text-white p-3 rounded-lg shadow-inner flex items-center justify-center text-sm font-medium">
+                        <i data-lucide="phone" class="w-4 h-4 mr-2"></i>
+                        24/7 Support: <span class="ml-1 font-bold">0742264138</span>
+                    </div>
+                </div>
 
-<div class="section-title">Our Packages</div>
-<div class="package-tabs">
-<button class="tab-button active" data-filter="all">All</button>
-<button class="tab-button" data-filter="hourly">Hourly</button>
-<button class="tab-button" data-filter="daily">Daily</button>
-<button class="tab-button" data-filter="weekly">Weekly</button>
-<button class="tab-button" data-filter="monthly">Monthly</button>
-</div>
+                <!-- PACKAGES SECTION (Data driven by JS packages array) -->
+                <div class="p-4 pt-0" id="packages-grid-container">
+                    <h2 class="text-3xl font-bold mb-6 ml-2 text-white">Our Internet Packages</h2>
+                    
+                    <div id="packages-grid">
+                        <!-- Packages rendered here by JS function renderPackages() -->
+                    </div>
+                </div>
+                
+                <!-- REDEEM VOUCHER BUTTON -->
+                <div class="p-4 pt-6">
+                    <button onclick="openModal('voucher-modal')" class="btn-accent w-full py-4 rounded-xl font-bold text-lg shadow-lg flex items-center justify-center">
+                        <i data-lucide="tag" class="w-5 h-5 mr-3"></i>
+                        Redeem Voucher
+                    </button>
+                </div>
 
-<div class="packages-grid" id="packages-grid"></div>
-<button class="voucher-button">🎟 Redeem Voucher</button>
-</div>
+                <!-- RECONNECT WITH M-PESA MESSAGE SECTION -->
+                <div class="p-4 pt-6 mt-8" id="reconnect-section">
+                    <h2 class="text-2xl font-bold mb-3 ml-2 text-white">Reconnect with M-Pesa Message</h2>
+                    
+                    <div class="bg-white rounded-xl p-4 shadow-lg flex flex-col space-y-3">
+                        <textarea id="mpesa-message" placeholder="Paste M-Pesa message (e.g., TCK15SKB4Z)" 
+                                class="w-full p-3 border border-gray-300 rounded-lg text-sm text-gray-700 h-20 resize-none focus:ring-blue-500"></textarea>
+                        
+                        <button onclick="handleReconnect()" class="btn-accent w-full py-3 rounded-lg font-bold shadow-md">
+                            Reconnect
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="pt-10"></div>
+            </div>
+        </div>
+        
+        <!-- ADMIN DASHBOARD VIEW (Initially Hidden) -->
+        <div id="admin-dashboard" class="hidden flex-grow bg-gray-100">
+            <div class="flex flex-col md:flex-row h-full min-h-screen">
+                <!-- Sidebar -->
+                <div id="admin-sidebar" class="md:w-64 bg-gray-800 text-white flex-shrink-0 p-4 shadow-xl sticky top-0 md:h-screen overflow-y-auto">
+                    <h2 class="text-2xl font-bold mb-6 text-orange-400">Admin Panel</h2>
+                    <p class="text-xs text-gray-400 mb-4">Logged in as: <span id="admin-username-display" class="font-semibold"></span></p>
 
-<!-- Admin Login Modal -->
-<div id="loginModal" class="modal">
-<div class="modal-content">
-<span class="close-button">&times;</span>
-<h3>Admin Login</h3>
-<input type="text" id="login-username" placeholder="Username" />
-<input type="password" id="login-password" placeholder="Password" />
-<button class="login-button">Login</button>
-</div>
-</div>
+                    <div class="space-y-2">
+                        <!-- Dashboard -->
+                        <div class="sidebar-link active-link" onclick="showAdminView('dashboard', this)">
+                            <i data-lucide="layout-dashboard" class="w-5 h-5 mr-3"></i> Dashboard
+                        </div>
 
-<footer>
-© 2025 SPEEDCONNECT Wi-Fi | Powered by <a href="#">Mayende Tech</a>
-</footer>
+                        <!-- Packages Dropdown -->
+                        <div class="sidebar-link" onclick="toggleDropdown('packages')">
+                            <i data-lucide="package" class="w-5 h-5 mr-3"></i> Packages 
+                            <i data-lucide="chevron-down" class="w-4 h-4 ml-auto package-icon"></i>
+                        </div>
+                        <div id="packages-dropdown" class="sidebar-dropdown space-y-1">
+                            <div class="sidebar-link !p-2" onclick="showAdminView('viewPackages', this)">View All Packages</div>
+                            <div class="sidebar-link !p-2" onclick="showAdminView('addPackage', this)">Add New Package</div>
+                        </div>
 
-<script>
-// Menu toggle
-const menuToggle=document.getElementById('menu-toggle');
-const mainNav=document.getElementById('main-nav');
-menuToggle.addEventListener('click',()=>{ mainNav.classList.toggle('open'); });
+                        <!-- Payments Dropdown -->
+                        <div class="sidebar-link" onclick="toggleDropdown('payments')">
+                            <i data-lucide="credit-card" class="w-5 h-5 mr-3"></i> Payments 
+                            <i data-lucide="chevron-down" class="w-4 h-4 ml-auto payment-icon"></i>
+                        </div>
+                        <div id="payments-dropdown" class="sidebar-dropdown space-y-1">
+                            <div class="sidebar-link !p-2" onclick="showAdminView('managePayments', this)">Manage Payments</div>
+                            <div class="sidebar-link !p-2" onclick="showAdminView('printTransactions', this)">Print All Transactions</div>
+                        </div>
 
-// Package generation
-const grid=document.getElementById('packages-grid');
-const types=['hourly','daily','weekly','monthly'];
-const typeNames={hourly:'Hour',daily:'Day',weekly:'Week',monthly:'Month'};
-types.forEach(type=>{
-for(let i=1;i<=5;i++){
-grid.innerHTML+=`
-<div class="package-card" data-type="${type}">
-<div class="package-title">${type.toUpperCase()} PACKAGE ${i}</div>
-<div class="package-price"><span class="price-currency">KES</span>40</div>
-<div class="package-details"><span>${i} ${typeNames[type]}</span> Unlimited Speed</div>
-</div>`;
-}
-});
+                        <!-- Staff Management -->
+                        <div class="sidebar-link" onclick="showAdminView('addStaff', this)">
+                            <i data-lucide="users" class="w-5 h-5 mr-3"></i> Add Staff Member
+                        </div>
 
-// Tabs filtering
-document.querySelectorAll('.tab-button').forEach(tab=>{
-tab.addEventListener('click',()=>{
-document.querySelectorAll('.tab-button').forEach(t=>t.classList.remove('active'));
-tab.classList.add('active');
-document.querySelectorAll('.package-card').forEach(card=>{
-card.style.display=(tab.dataset.filter==='all'||card.dataset.type===tab.dataset.filter)?'block':'none';
-});
-});
-});
+                        <!-- Settings -->
+                        <div class="sidebar-link" onclick="showAdminView('settings', this)">
+                            <i data-lucide="settings" class="w-5 h-5 mr-3"></i> Settings
+                        </div>
 
-// Admin Login modal
-const loginModal=document.getElementById('loginModal');
-document.getElementById('login-btn').addEventListener('click',()=>{ loginModal.style.display='flex'; });
-loginModal.querySelector('.close-button').addEventListener('click',()=>{ loginModal.style.display='none'; });
-window.addEventListener('click',e=>{ if(e.target===loginModal) loginModal.style.display='none'; });
-</script>
+                        <!-- Logout -->
+                        <div class="sidebar-link bg-red-600 hover:bg-red-700 mt-4" onclick="handleAdminLogout()">
+                            <i data-lucide="log-out" class="w-5 h-5 mr-3"></i> Logout
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content Area -->
+                <div id="admin-main-content" class="flex-grow p-4 md:p-8 overflow-y-auto">
+                    <!-- Dynamic content will be loaded here -->
+                    <h1 class="text-4xl font-bold text-gray-800 mb-6" id="admin-content-title">Dashboard Overview</h1>
+                    <div id="admin-content-body" class="bg-white p-6 rounded-xl shadow-lg">
+                        <!-- Initial dashboard content -->
+                        <h2 class="text-3xl font-bold text-gray-800 mb-6">Welcome back, Admin!</h2>
+                        <p class="text-gray-600">Welcome to the SPEEDCONNECT Hotspot Administration Panel. Use the sidebar to manage packages, payments, and staff.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                            <div class="bg-blue-100 p-4 rounded-lg shadow">
+                                <h3 class="font-bold text-xl text-blue-700">24</h3>
+                                <p class="text-sm text-blue-600">Active Packages</p>
+                            </div>
+                            <div class="bg-green-100 p-4 rounded-lg shadow">
+                                <h3 class="font-bold text-xl text-green-700">KES 12,500</h3>
+                                <p class="text-sm text-green-600">Today's Revenue (Mock)</p>
+                            </div>
+                            <div class="bg-yellow-100 p-4 rounded-lg shadow">
+                                <h3 class="font-bold text-xl text-yellow-700">4</h3>
+                                <p class="text-sm text-yellow-600">Staff Members (Mock)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+    <!-- GLOBAL FOOTER SECTION -->
+    <footer class="bg-gray-800 text-white p-8">
+        <div class="main-content grid grid-cols-2 md:grid-cols-4 gap-8 text-sm">
+            <div>
+                <h4 class="font-bold text-lg mb-3 text-orange-400">SPEEDCONNECT</h4>
+                <p class="text-gray-400">Fast, reliable, and affordable internet access across the region.</p>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-3">Links</h4>
+                <ul class="space-y-1">
+                    <li><a href="#packages-grid" class="text-gray-400 hover:text-white">All Packages</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Coverage Map</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Our Story</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-3">Legal</h4>
+                <ul class="space-y-1">
+                    <li><a href="#" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-3">Contact</h4>
+                <p class="text-gray-400">Email: info@speedconnect.co.ke</p>
+                <p class="text-gray-400">Phone: 0742264138</p>
+            </div>
+        </div>
+        <div class="main-content border-t border-gray-700 mt-8 pt-4 text-center text-xs text-gray-500">
+            &copy; 2025 SPEEDCONNECT Hotspot. All rights reserved.
+        </div>
+    </footer>
+
+
+    <!-- MODALS -->
+
+    <!-- 1. M-Pesa Payment Modal -->
+    <div class="modal-overlay" id="payment-modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('payment-modal')">&times;</span>
+            <h3 class="text-2xl font-bold text-green-600 mb-4">Purchase: <span id="modal-package-name"></span></h3>
+            <p class="text-lg mb-4">Price: <strong id="modal-package-price" class="text-blue-700"></strong></p>
+            
+            <input type="tel" id="client-phone-number" placeholder="Enter Phone Number (e.g., 2547XXXXXXXX)" required 
+                   class="w-full p-3 border border-gray-300 rounded-lg mb-4 text-gray-700 focus:ring-green-500">
+            
+            <button onclick="handlePayment()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-lg shadow-md transition">
+                Initiate STK Push (M-Pesa)
+            </button>
+        </div>
+    </div>
+
+    <!-- 2. Voucher Modal -->
+    <div class="modal-overlay" id="voucher-modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('voucher-modal')">&times;</span>
+            <h3 class="text-2xl font-bold text-orange-600 mb-4">Redeem Voucher</h3>
+            
+            <input type="text" id="voucher-code" placeholder="Enter 8-digit Voucher Code" required 
+                   class="w-full p-3 border border-gray-300 rounded-lg mb-4 text-gray-700 focus:ring-orange-500">
+            
+            <button onclick="handleVoucher()" class="btn-accent w-full py-3 rounded-lg font-bold shadow-md">
+                Connect Now
+            </button>
+        </div>
+    </div>
+    
+    <!-- 3. Reconnect/General Status Modal -->
+    <div class="modal-overlay" id="status-modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('status-modal')">&times;</span>
+            <h3 id="status-title" class="text-2xl font-bold text-blue-700 mb-4"></h3>
+            <p id="status-message" class="text-gray-700 mb-6"></p>
+            <button onclick="closeModal('status-modal')" class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg">Close</button>
+        </div>
+    </div>
+
+    <!-- 4. Admin Login Modal -->
+    <div class="modal-overlay" id="admin-login-modal">
+        <div class="modal-content !max-w-xs bg-red-50 border-4 border-red-600">
+            <span class="close-btn !text-red-600" onclick="closeModal('admin-login-modal')">&times;</span>
+            <h3 class="text-xl font-bold text-red-700 mb-2">CAUTION!</h3>
+            <p class="text-sm font-semibold text-red-500 mb-6">ADMIN ONLY LOGIN</p>
+            
+            <input type="text" id="admin-username" placeholder="Username (admin)" required 
+                   class="w-full p-3 border border-gray-300 rounded-lg mb-3 text-gray-700 focus:ring-red-500">
+            
+            <input type="password" id="admin-password" placeholder="Password (shadow)" required 
+                   class="w-full p-3 border border-gray-300 rounded-lg mb-4 text-gray-700 focus:ring-red-500">
+            
+            <button onclick="handleAdminLogin()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-lg shadow-md transition">
+                Login
+            </button>
+            <p id="login-error-message" class="text-red-500 text-xs mt-2 hidden">Invalid credentials.</p>
+        </div>
+    </div>
+
+    <!-- 5. General Confirmation/Edit Modal (Reused for Admin operations) -->
+    <div class="modal-overlay" id="admin-action-modal">
+        <div class="modal-content !max-w-lg">
+            <span class="close-btn" onclick="closeModal('admin-action-modal')">&times;</span>
+            <h3 id="action-modal-title" class="text-2xl font-bold text-blue-700 mb-4"></h3>
+            <div id="action-modal-body" class="text-gray-700 mb-6 text-left">
+                <!-- Dynamic content (forms/messages) loads here -->
+            </div>
+            <div id="action-modal-footer">
+                <button onclick="closeModal('admin-action-modal')" class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg">Close</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Initialize Lucide icons on load
+        window.onload = function() {
+            lucide.createIcons();
+            renderPackages();
+            
+            // Initial view setting
+            document.getElementById('user-portal').classList.remove('hidden');
+            document.getElementById('admin-dashboard').classList.add('hidden');
+            
+            // Set initial dashboard view
+            showAdminView('dashboard'); 
+        };
+
+        const CURRENCY_SYMBOL = 'KES ';
+        let selectedPackage = null;
+        let nextPackageId = 25; // Start new IDs after the initial 24
+
+        // --- MOCK DATA STRUCTURES (In-Memory State) ---
+
+        let packages = [
+            { id: 1, name: '1 HR LITE', category: 'Hourly', price: 5, duration: '1 Hour', details: '1 Device, 5Mbps' },
+            { id: 2, name: '2 HRS STANDARD', category: 'Hourly', price: 10, duration: '2 Hours', details: 'Unlimited, 10Mbps' },
+            { id: 3, name: '4 HRS BOOST', category: 'Hourly', price: 15, duration: '4 Hours', details: 'Unlimited, 15Mbps' },
+            { id: 4, name: '6 HRS PRO', category: 'Hourly', price: 20, duration: '6 Hours', details: 'Unlimited, 20Mbps' },
+            { id: 21, name: '8 HRS MAX', category: 'Hourly', price: 22, duration: '8 Hours', details: 'Unlimited, 25Mbps' }, 
+            { id: 5, name: '12 HRS NIGHT', category: 'Hourly', price: 25, duration: '12 Hours', details: 'Unlimited, 5Mbps (10 PM - 10 AM)' }, 
+            { id: 6, name: '1 DAY BASIC', category: 'Daily', price: 40, duration: '24 Hours', details: '1 Device, 5Mbps' },
+            { id: 7, name: '1 DAY PREMIUM', category: 'Daily', price: 59, duration: '24 Hours', details: '2 Devices, 15Mbps' },
+            { id: 22, name: '2 DAYS EXTENDED', category: 'Daily', price: 79, duration: '2 Days', details: 'Unlimited, 10Mbps' }, 
+            { id: 8, name: '3 DAYS FAST', category: 'Daily', price: 99, duration: '3 Days', details: 'Unlimited, 10Mbps' },
+            { id: 9, name: '3 DAYS FAMILY', category: 'Daily', price: 120, duration: '3 Days', details: '3 Devices, 20Mbps' },
+            { id: 10, name: '7 DAYS TOURIST', category: 'Daily', price: 200, duration: '7 Days', details: '1 Device, Unlimited Data' },
+            { id: 11, name: '1 WEEK LITE', category: 'Weekly', price: 180, duration: '7 Days', details: '1 Device, 10Mbps' },
+            { id: 12, name: '1 WEEK STANDARD', category: 'Weekly', price: 250, duration: '7 Days', details: 'Unlimited, 15Mbps' },
+            { id: 13, name: '2 WEEKS COMBO', category: 'Weekly', price: 350, duration: '14 Days', details: '2 Devices, 20Mbps' },
+            { id: 14, name: '3 WEEKS POWER', category: 'Weekly', price: 499, duration: '21 Days', details: 'Unlimited, 30Mbps' },
+            { id: 15, name: '4 WEEKS VALUE', category: 'Weekly', price: 600, duration: '30 Days', details: '1 Device, 10Mbps' }, 
+            { id: 23, name: '4 WEEKS POWER+', category: 'Weekly', price: 699, duration: '30 Days', details: '2 Devices, 15Mbps' }, 
+            { id: 16, name: '1 MONTH STARTER', category: 'Monthly', price: 750, duration: '30 Days', details: '3 Devices, 15Mbps' },
+            { id: 17, name: '1 MONTH UNLIMITED', category: 'Monthly', price: 999, duration: '30 Days', details: 'Unlimited Devices, 20Mbps' },
+            { id: 18, name: '3 MONTHS BUSINESS', category: 'Monthly', price: 2500, duration: '90 Days', details: '5 Devices, 50Mbps' },
+            { id: 19, name: '6 MONTHS ENTERPRISE', category: 'Monthly', price: 4500, duration: '180 Days', details: '10 Devices, Best Speed' },
+            { id: 24, name: '1 YEAR ECONOMY', category: 'Monthly', price: 7000, duration: '365 Days', details: '5 Devices, 10Mbps' }, 
+            { id: 20, name: '1 YEAR PREMIUM', category: 'Monthly', price: 8000, duration: '365 Days', details: 'Priority Support, 50Mbps+' },
+        ];
+        
+        let staffUsers = [
+            // UPDATED: Admin till number added
+            { username: 'admin', password: 'shadow', role: 'Super Admin', till: '4832924' },
+            { username: 'staff1', password: 'pass', role: 'Support Agent', till: '123456' },
+        ];
+
+        let payments = [
+            // UPDATED: Added payment mode field
+            { id: 101, txid: 'TCK15SKB4Z', package: '2 HRS STANDARD', amount: 10, date: '2025-10-25 10:30', phone: '254701123456', mode: 'Till' },
+            { id: 102, txid: 'TCL9RKD13L', package: '1 DAY PREMIUM', amount: 59, date: '2025-10-25 11:15', phone: '254702987654', mode: 'Paybill' },
+            { id: 103, txid: 'TCM01AZX9V', package: '1 WEEK STANDARD', amount: 250, date: '2025-10-26 09:00', phone: '254703555555', mode: 'PayPal' },
+        ];
+
+        let currentAdminUser = null;
+
+        // --- Core Modal and Status Functions (User Portal) ---
+
+        function openModal(id) {
+            document.getElementById(id).style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+            document.getElementById('login-error-message').classList.add('hidden'); // Clear error on close
+        }
+        
+        function openStatusModal(title, message, colorClass = 'text-blue-700') {
+            document.getElementById('status-title').textContent = title;
+            document.getElementById('status-title').className = `text-2xl font-bold mb-4 ${colorClass}`;
+            document.getElementById('status-message').textContent = message;
+            openModal('status-modal');
+        }
+
+        // --- User Portal Interaction Logic ---
+        
+        function renderPackages() {
+            const gridContainer = document.getElementById('packages-grid');
+            if (!gridContainer) return;
+            
+            // Group packages by category
+            const groupedPackages = packages.reduce((acc, p) => {
+                acc[p.category] = acc[p.category] || [];
+                acc[p.category].push(p);
+                return acc;
+            }, {});
+            
+            let htmlContent = '';
+
+            for (const category in groupedPackages) {
+                // Category Header
+                htmlContent += `
+                    <h3 class="text-2xl font-extrabold mt-6 mb-3 text-white border-b-2 border-orange-400/50 pb-2">${category} Plans</h3>
+                    <div class="grid grid-cols-2 gap-3 sm:gap-4 mb-6">
+                `;
+                
+                // Package Cards
+                htmlContent += groupedPackages[category].map(p => `
+                    <div class="package-card p-3 text-center" onclick="openPaymentModal(${p.id})">
+                        <p class="text-xs font-bold uppercase text-gray-500">${p.name}</p>
+                        <p class="text-2xl font-extrabold mt-1 text-red-600">${CURRENCY_SYMBOL}${p.price}</p>
+                        <div class="mt-2 text-xs font-medium text-gray-700 flex flex-col items-center">
+                            <span class="flex items-center mb-0.5">
+                                <i data-lucide="clock" class="w-3 h-3 mr-1 text-blue-500"></i> 
+                                ${p.duration}
+                            </span>
+                             <p class="text-[0.6rem] font-bold text-green-600 px-1">${p.details}</p>
+                        </div>
+                    </div>
+                `).join('');
+                
+                htmlContent += `</div>`;
+            }
+            
+            gridContainer.innerHTML = htmlContent;
+            lucide.createIcons(); // Render icons after injecting HTML
+        }
+        
+        function openPaymentModal(packageId) {
+            selectedPackage = packages.find(p => p.id === packageId);
+            if (selectedPackage) {
+                document.getElementById('modal-package-name').textContent = selectedPackage.name;
+                document.getElementById('modal-package-price').textContent = `${CURRENCY_SYMBOL}${selectedPackage.price}`; 
+                document.getElementById('client-phone-number').value = '2547'; 
+                openModal('payment-modal');
+            }
+        }
+
+        function handlePayment() {
+            const phoneNumber = document.getElementById('client-phone-number').value.trim();
+            
+            if (!phoneNumber.startsWith('2547') || phoneNumber.length !== 12) {
+                openStatusModal('Error', 'Please enter a valid 12-digit Kenyan phone number starting with 2547.', 'text-red-600');
+                return;
+            }
+
+            if (selectedPackage) {
+                // Mock API call simulation
+                closeModal('payment-modal');
+                openStatusModal(
+                    'STK Push Initiated!',
+                    `A payment request for KES ${selectedPackage.price} for the ${selectedPackage.name} plan has been sent to your number: ${phoneNumber}. Please confirm on your mobile phone to connect!`,
+                    'text-green-600'
+                );
+            }
+        }
+
+        function handleVoucher() {
+            const voucherCode = document.getElementById('voucher-code').value.trim();
+            
+            if (voucherCode.length < 5) {
+                openStatusModal('Error', 'Please enter a valid voucher code.', 'text-red-600');
+                return;
+            }
+
+            // Mock successful connection
+            closeModal('voucher-modal');
+            openStatusModal(
+                'Voucher Applied!',
+                `Voucher code "${voucherCode}" accepted. You are now connected to SPEEDCONNECT HOTSPOT!`,
+                'text-green-600'
+            );
+        }
+        
+        function handleReconnect() {
+            const message = document.getElementById('mpesa-message').value.trim();
+
+            if (message.length < 5 || !message.includes('TCK')) {
+                openStatusModal('Error', 'The M-Pesa message seems incomplete or invalid. Please paste the entire confirmation message (e.g., beginning with "TCK").', 'text-red-600');
+                return;
+            }
+
+            // Mock successful reconnection
+            openStatusModal(
+                'Reconnection Successful!',
+                `Your previous payment (Transaction ID: ${message.substring(0, 10)}) has been verified. You are reconnected to the service!`,
+                'text-green-600'
+            );
+            // Clear the textarea after simulated successful action
+            document.getElementById('mpesa-message').value = '';
+        }
+        
+        // --- Admin Authentication & View Switching ---
+
+        function handleAdminLogin() {
+            const username = document.getElementById('admin-username').value.trim();
+            const password = document.getElementById('admin-password').value.trim();
+            const errorElement = document.getElementById('login-error-message');
+            
+            const user = staffUsers.find(u => u.username === username && u.password === password);
+
+            if (user) {
+                currentAdminUser = user;
+                closeModal('admin-login-modal');
+                
+                // Switch to Admin Dashboard view
+                document.getElementById('user-portal').classList.add('hidden');
+                document.getElementById('admin-dashboard').classList.remove('hidden');
+                
+                // Set admin name display
+                document.getElementById('admin-username-display').textContent = user.username + (user.role === 'Super Admin' ? ` (Super Admin - Till: ${user.till})` : ` (${user.role})`);
+
+                // Clear fields
+                document.getElementById('admin-username').value = '';
+                document.getElementById('admin-password').value = '';
+                errorElement.classList.add('hidden');
+                
+                showAdminView('dashboard'); // Default to dashboard after login
+
+            } else {
+                errorElement.textContent = 'Invalid username or password.';
+                errorElement.classList.remove('hidden');
+            }
+        }
+
+        function handleAdminLogout() {
+            currentAdminUser = null;
+            // Switch back to User Portal view
+            document.getElementById('user-portal').classList.remove('hidden');
+            document.getElementById('admin-dashboard').classList.add('hidden');
+            renderPackages(); // Re-render the user packages to be safe
+        }
+
+        function toggleDropdown(id) {
+            const dropdown = document.getElementById(`${id}-dropdown`);
+            dropdown.classList.toggle('open');
+            // Rotate icon (optional)
+            const icon = document.querySelector(`.${id}-icon`);
+            if (icon) icon.style.transform = dropdown.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+
+        function showAdminView(viewName, element = null) {
+            const contentBody = document.getElementById('admin-content-body');
+            const contentTitle = document.getElementById('admin-content-title');
+            const welcomeGreeting = currentAdminUser ? `Welcome back, ${currentAdminUser.username}!` : 'Admin Dashboard';
+
+
+            // Reset active state for sidebar links
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.classList.remove('active-link');
+                // Ensure dropdown children are not marked active unless explicitly clicked
+                if (!document.getElementById('packages-dropdown').contains(link) && !document.getElementById('payments-dropdown').contains(link)) {
+                    link.classList.remove('active-link');
+                }
+            });
+
+            // Set active state for the clicked link (unless it's a dropdown toggle)
+            if (element && !['packages', 'payments'].includes(viewName)) {
+                element.classList.add('active-link');
+            }
+
+
+            contentBody.innerHTML = '';
+            
+            switch (viewName) {
+                case 'dashboard':
+                    contentTitle.textContent = welcomeGreeting;
+                    contentBody.innerHTML = `
+                        <p class="text-gray-600">You are logged in as a ${currentAdminUser.role}. Your Till Number is **${currentAdminUser.till}** (if applicable).</p>
+                        <p class="text-sm text-red-500 mt-2">Note: All data in this session is volatile (in-memory) and will reset upon refresh.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                            <div class="bg-blue-100 p-4 rounded-lg shadow">
+                                <h3 class="font-bold text-xl text-blue-700">${packages.length}</h3>
+                                <p class="text-sm text-blue-600">Total Packages</p>
+                            </div>
+                            <div class="bg-green-100 p-4 rounded-lg shadow">
+                                <h3 class="font-bold text-xl text-green-700">${CURRENCY_SYMBOL}${payments.reduce((sum, p) => sum + p.amount, 0)}</h3>
+                                <p class="text-sm text-green-600">Total Revenue (Mock)</p>
+                            </div>
+                            <div class="bg-yellow-100 p-4 rounded-lg shadow">
+                                <h3 class="font-bold text-xl text-yellow-700">${staffUsers.length}</h3>
+                                <p class="text-sm text-yellow-600">Staff Members</p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'viewPackages':
+                    contentTitle.textContent = welcomeGreeting;
+                    contentBody.innerHTML = renderPackageTable();
+                    break;
+                
+                case 'addPackage':
+                    contentTitle.textContent = welcomeGreeting;
+                    contentBody.innerHTML = renderPackageForm();
+                    break;
+
+                case 'managePayments':
+                    contentTitle.textContent = welcomeGreeting;
+                    contentBody.innerHTML = renderPaymentTable();
+                    break;
+
+                case 'printTransactions':
+                    contentTitle.textContent = welcomeGreeting;
+                    contentBody.innerHTML = `<p class="text-gray-600">Printing functionality is mocked. Displaying a list of transactions to print:</p><br>` + renderPaymentTable();
+                    break;
+
+                case 'addStaff':
+                    contentTitle.textContent = welcomeGreeting;
+                    contentBody.innerHTML = renderStaffForm();
+                    break;
+
+                case 'settings':
+                    contentTitle.textContent = welcomeGreeting;
+                    contentBody.innerHTML = renderSettingsForm();
+                    break;
+
+                default:
+                    contentBody.innerHTML = `<p class="text-gray-600">Page not found.</p>`;
+                    break;
+            }
+            lucide.createIcons(); // Re-render icons after content injection
+        }
+
+        // --- Admin CRUD Helper Functions ---
+
+        function renderPackageTable() {
+            const categories = ['Hourly', 'Daily', 'Weekly', 'Monthly'];
+            let html = `
+                <div class="flex justify-between items-center mb-6 border-b pb-3">
+                    <h3 class="text-2xl font-bold text-gray-700">Packages Management</h3>
+                    <button onclick="showAdminView('addPackage')" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg shadow-md flex items-center transition">
+                        <i data-lucide="plus" class="w-5 h-5 mr-2"></i> Add Package
+                    </button>
+                </div>
+            `;
+
+            categories.forEach(category => {
+                const filteredPackages = packages.filter(p => p.category === category);
+                html += `
+                    <h3 class="text-xl font-semibold mt-6 mb-3 border-b pb-1 text-blue-700">${category} Packages</h3>
+                    <div class="overflow-x-auto shadow-md rounded-lg mb-6">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Price (KES)</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Duration</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Details</th>
+                                    <th class="px-3 py-2 text-center text-xs font-medium text-gray-500 uppercase">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                `;
+                
+                if (filteredPackages.length === 0) {
+                    html += `<tr><td colspan="6" class="px-3 py-4 text-sm text-gray-500 text-center">No packages in this category.</td></tr>`;
+                } else {
+                    filteredPackages.forEach(p => {
+                        html += `
+                            <tr>
+                                <td class="px-3 py-2 whitespace-nowrap text-sm font-medium text-gray-900">${p.id}</td>
+                                <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-700">${p.name}</td>
+                                <td class="px-3 py-2 whitespace-nowrap text-sm text-red-600 font-semibold">${p.price}</td>
+                                <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-500">${p.duration}</td>
+                                <td class="px-3 py-2 text-sm text-gray-500">${p.details}</td>
+                                <td class="px-3 py-2 whitespace-nowrap text-center text-sm font-medium">
+                                    <button onclick="editPackage(${p.id})" class="text-indigo-600 hover:text-indigo-900 text-sm mr-2">Edit</button>
+                                    <button onclick="deletePackage(${p.id})" class="text-red-600 hover:text-red-900 text-sm">Delete</button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                }
+
+                html += `
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            });
+            return html;
+        }
+
+        function renderPackageForm(pkg = null) {
+            const isEditing = pkg !== null;
+            const buttonText = isEditing ? 'Update Package' : 'Create Package';
+            const formId = isEditing ? `edit-package-form-${pkg.id}` : 'add-package-form';
+            const categories = ['Hourly', 'Daily', 'Weekly', 'Monthly'];
+
+            return `
+                <h3 class="text-xl font-bold mb-4">${isEditing ? `Editing: ${pkg.name}` : 'Enter New Package Details'}</h3>
+                <form id="${formId}" onsubmit="event.preventDefault(); ${isEditing ? `savePackageChanges(${pkg.id})` : 'saveNewPackage()'}">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700">Package Name</label>
+                            <input type="text" id="name" value="${pkg ? pkg.name : ''}" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
+                        </div>
+                        <div>
+                            <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+                            <select id="category" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
+                                ${categories.map(c => `<option value="${c}" ${pkg && pkg.category === c ? 'selected' : ''}>${c}</option>`).join('')}
+                            </select>
+                        </div>
+                        <div>
+                            <label for="price" class="block text-sm font-medium text-gray-700">Price (KES)</label>
+                            <input type="number" id="price" value="${pkg ? pkg.price : ''}" required min="1" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
+                        </div>
+                        <div>
+                            <label for="duration" class="block text-sm font-medium text-gray-700">Duration (e.g., '24 Hours')</label>
+                            <input type="text" id="duration" value="${pkg ? pkg.duration : ''}" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <label for="details" class="block text-sm font-medium text-gray-700">Details (e.g., '3 Devices, 20Mbps')</label>
+                        <input type="text" id="details" value="${pkg ? pkg.details : ''}" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
+                    </div>
+                    <div class="mt-6 text-center">
+                        <button type="submit" class="btn-accent py-2 px-6 rounded-lg font-bold shadow-md">${buttonText}</button>
+                    </div>
+                </form>
+            `;
+        }
+
+        function saveNewPackage() {
+            const newPackage = {
+                id: nextPackageId++,
+                name: document.getElementById('name').value.trim(),
+                category: document.getElementById('category').value,
+                price: parseInt(document.getElementById('price').value, 10),
+                duration: document.getElementById('duration').value.trim(),
+                details: document.getElementById('details').value.trim(),
+            };
+
+            packages.push(newPackage);
+            renderPackages(); // Update user view
+            showAdminView('viewPackages'); // Show updated admin list
+            openStatusModal('Success', `Package ${newPackage.name} created successfully!`, 'text-green-600');
+        }
+
+        function editPackage(id) {
+            const pkg = packages.find(p => p.id === id);
+            if (!pkg) return;
+
+            document.getElementById('action-modal-title').textContent = `Edit Package: ${pkg.name}`;
+            document.getElementById('action-modal-body').innerHTML = renderPackageForm(pkg);
+            document.getElementById('action-modal-footer').innerHTML = `
+                <button onclick="closeModal('admin-action-modal')" class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg mr-2">Cancel</button>
+                <button onclick="savePackageChanges(${pkg.id})" class="btn-accent py-2 px-4 rounded-lg font-bold">Save Changes</button>
+            `;
+            openModal('admin-action-modal');
+        }
+
+        function savePackageChanges(id) {
+            const pkgIndex = packages.findIndex(p => p.id === id);
+            if (pkgIndex === -1) return;
+
+            packages[pkgIndex] = {
+                ...packages[pkgIndex], // Keep existing data like ID
+                name: document.getElementById('name').value.trim(),
+                category: document.getElementById('category').value,
+                price: parseInt(document.getElementById('price').value, 10),
+                duration: document.getElementById('duration').value.trim(),
+                details: document.getElementById('details').value.trim(),
+            };
+            
+            closeModal('admin-action-modal');
+            renderPackages(); // Update user view
+            showAdminView('viewPackages'); // Show updated admin list
+            openStatusModal('Success', `Package ID ${id} updated successfully!`, 'text-green-600');
+        }
+
+        function deletePackage(id) {
+            if (confirm(`Are you sure you want to delete package ID ${id}? This cannot be undone.`)) {
+                const initialLength = packages.length;
+                packages = packages.filter(p => p.id !== id);
+                
+                if (packages.length < initialLength) {
+                    renderPackages(); // Update user view
+                    showAdminView('viewPackages'); // Show updated admin list
+                    openStatusModal('Success', `Package ID ${id} deleted successfully.`, 'text-green-600');
+                } else {
+                    openStatusModal('Error', `Package ID ${id} not found.`, 'text-red-600');
+                }
+            }
+        }
+        
+        // --- Admin Payment Management ---
+
+        function filterPayments(mode) {
+            const tableBody = document.getElementById('payment-table-body');
+            const paymentCount = document.getElementById('paymentCount');
+            let filteredData = payments;
+
+            if (mode !== 'All') {
+                filteredData = payments.filter(p => p.mode === mode);
+            }
+
+            if (tableBody) {
+                tableBody.innerHTML = filteredData.map(p => `
+                    <tr>
+                        <td class="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900">${p.txid}</td>
+                        <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-700">${p.package}</td>
+                        <td class="px-4 py-2 whitespace-nowrap text-sm text-green-600 font-semibold">${CURRENCY_SYMBOL}${p.amount}</td>
+                        <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-500">${p.date}</td>
+                        <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-500">${p.phone}</td>
+                        <td class="px-4 py-2 whitespace-nowrap text-sm font-semibold">${p.mode}</td>
+                    </tr>
+                `).join('');
+                paymentCount.textContent = filteredData.length;
+            }
+        }
+
+
+        function renderPaymentTable() {
+            return `
+                <div class="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-6">
+                    <label for="paymentModeFilter" class="text-gray-700 font-medium whitespace-nowrap">Select Payment Mode:</label>
+                    <select id="paymentModeFilter" onchange="filterPayments(this.value)" class="p-2 border border-gray-300 rounded-md shadow-sm w-full sm:w-auto">
+                        <option value="All">All Modes</option>
+                        <option value="Till">Till</option>
+                        <option value="Paybill">Paybill</option>
+                        <option value="PayPal">PayPal</option>
+                        <option value="Integration">Integration</option>
+                    </select>
+                    <span class="text-sm text-gray-500 ml-auto whitespace-nowrap">Total Payments: <span id="paymentCount">${payments.length}</span></span>
+                </div>
+                <p class="text-sm text-red-500 mb-4">Note: The Payment Mode filter is active on the table below.</p>
+                <div class="overflow-x-auto shadow-md rounded-lg">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">TX ID</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Package</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Phone</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Payment Mode</th>
+                            </tr>
+                        </thead>
+                        <tbody id="payment-table-body" class="bg-white divide-y divide-gray-200">
+                            ${payments.map(p => `
+                                <tr>
+                                    <td class="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900">${p.txid}</td>
+                                    <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-700">${p.package}</td>
+                                    <td class="px-4 py-2 whitespace-nowrap text-sm text-green-600 font-semibold">${CURRENCY_SYMBOL}${p.amount}</td>
+                                    <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-500">${p.date}</td>
+                                    <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-500">${p.phone}</td>
+                                    <td class="px-4 py-2 whitespace-nowrap text-sm font-semibold">${p.mode}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        // --- Admin Staff Management ---
+
+        function renderStaffForm() {
+            return `
+                <p class="text-gray-600 mb-6">Staff members can log in using their username and password to access the admin panel for assigned tasks.</p>
+                <form onsubmit="event.preventDefault(); saveNewStaff()">
+                    <div class="space-y-4">
+                        <div>
+                            <label for="staffName" class="block text-sm font-medium text-gray-700">Full Name (Used for Username)</label>
+                            <input type="text" id="staffName" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
+                        </div>
+                        <div>
+                            <label for="staffPassword" class="block text-sm font-medium text-gray-700">Password</label>
+                            <input type="password" id="staffPassword" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
+                        </div>
+                        <div>
+                            <label for="staffTill" class="block text-sm font-medium text-gray-700">Till Number Management ID</label>
+                            <input type="text" id="staffTill" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
+                        </div>
+                    </div>
+                    <div class="mt-6 text-center">
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg font-bold shadow-md">Add Staff Member</button>
+                    </div>
+                </form>
+                
+                <h3 class="text-xl font-semibold mt-8 mb-3 border-b pb-1">Current Staff</h3>
+                <div class="overflow-x-auto shadow-md rounded-lg">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Username</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Till ID</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            ${staffUsers.map(s => `
+                                <tr>
+                                    <td class="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900">${s.username}</td>
+                                    <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-700">${s.role}</td>
+                                    <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-500">${s.till}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        function saveNewStaff() {
+            const name = document.getElementById('staffName').value.trim();
+            const password = document.getElementById('staffPassword').value.trim();
+            const till = document.getElementById('staffTill').value.trim();
+            
+            const newStaff = {
+                username: name.toLowerCase().replace(/\s/g, ''), // Simple username generation
+                password: password,
+                role: 'Staff',
+                till: till
+            };
+
+            staffUsers.push(newStaff);
+            showAdminView('addStaff'); // Re-render to show new staff member
+            openStatusModal('Success', `Staff member ${newStaff.username} added successfully!`, 'text-green-600');
+        }
+
+        // --- Admin Settings (Change Password Mock) ---
+
+        function renderSettingsForm() {
+             return `
+                <form onsubmit="event.preventDefault(); changeAdminPassword()">
+                    <div class="space-y-4">
+                        <p class="text-sm text-gray-500">Change password for logged-in user: <strong>${currentAdminUser.username}</strong></p>
+                        <div>
+                            <label for="oldPassword" class="block text-sm font-medium text-gray-700">Old Password</label>
+                            <input type="password" id="oldPassword" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
+                        </div>
+                        <div>
+                            <label for="newPassword" class="block text-sm font-medium text-gray-700">New Password</label>
+                            <input type="password" id="newPassword" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
+                        </div>
+                        <div>
+                            <label for="confirmNewPassword" class="block text-sm font-medium text-gray-700">Confirm New Password</label>
+                            <input type="password" id="confirmNewPassword" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
+                        </div>
+                    </div>
+                    <div class="mt-6 text-center">
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg font-bold shadow-md">Change Password</button>
+                    </div>
+                    <p id="password-status-message" class="text-xs mt-3 text-red-500"></p>
+                </form>
+            `;
+        }
+
+        function changeAdminPassword() {
+            const oldPass = document.getElementById('oldPassword').value;
+            const newPass = document.getElementById('newPassword').value;
+            const confirmPass = document.getElementById('confirmNewPassword').value;
+            const statusMsg = document.getElementById('password-status-message');
+            statusMsg.textContent = '';
+            statusMsg.classList.remove('text-green-600', 'text-red-500');
+
+            const userIndex = staffUsers.findIndex(u => u.username === currentAdminUser.username);
+            
+            if (userIndex === -1) {
+                statusMsg.textContent = 'Error: User not found in session.';
+                statusMsg.classList.add('text-red-500');
+                return;
+            }
+
+            if (oldPass !== staffUsers[userIndex].password) {
+                statusMsg.textContent = 'Error: Old password is incorrect.';
+                statusMsg.classList.add('text-red-500');
+                return;
+            }
+
+            if (newPass !== confirmPass) {
+                statusMsg.textContent = 'Error: New passwords do not match.';
+                statusMsg.classList.add('text-red-500');
+                return;
+            }
+            
+            // Update password in in-memory state
+            staffUsers[userIndex].password = newPass;
+            currentAdminUser.password = newPass; // Update current session user
+            
+            // Clear fields
+            document.getElementById('oldPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmNewPassword').value = '';
+
+            statusMsg.textContent = 'Password changed successfully! You may now log in with the new password.';
+            statusMsg.classList.add('text-green-600');
+        }
+
+    </script>
 </body>
 </html>
