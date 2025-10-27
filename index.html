@@ -313,14 +313,14 @@
     <div class="modal-overlay" id="payment-modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('payment-modal')">&times;</span>
-            <h3 class="text-2xl font-bold text-green-600 mb-4">Purchase: <span id="modal-package-name"></span></h3>
+            <h3 class="text-2xl font-bold text-green-600 mb-4"><span id="modal-package-name"></span></h3>
             <p class="text-lg mb-4">Price: <strong id="modal-package-price" class="text-blue-700"></strong></p>
             
             <input type="tel" id="client-phone-number" placeholder="Enter Phone Number (e.g., 2547XXXXXXXX)" required 
                    class="w-full p-3 border border-gray-300 rounded-lg mb-4 text-gray-700 focus:ring-green-500">
             
             <button onclick="handlePayment()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-lg shadow-md transition">
-                Initiate STK Push (M-Pesa)
+                Pay
             </button>
         </div>
     </div>
@@ -1077,6 +1077,7 @@
     </script>
 </body>
 </html>
+
 
 
 
